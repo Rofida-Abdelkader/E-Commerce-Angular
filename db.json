@@ -1,0 +1,380 @@
+{
+  "orders": [
+    {
+      "id": "1",
+      "orderNumber": "ORD-2024-001",
+      "customerId": "cust-1",
+      "customerName": "Ahmed Hassan",
+      "customerEmail": "ahmed@example.com",
+      "status": "pending",
+      "paymentStatus": "paid",
+      "paymentMethod": "credit_card",
+      "items": [
+        {
+          "id": "item-1",
+          "productId": "prod-1",
+          "productName": "Wireless Headphones Pro",
+          "productImage": "https://placehold.co/80",
+          "sku": "WHP-001",
+          "quantity": 1,
+          "unitPrice": 299.99,
+          "totalPrice": 299.99
+        },
+        {
+          "id": "item-2",
+          "productId": "prod-2",
+          "productName": "USB-C Cable 2m",
+          "productImage": "https://placehold.co/80",
+          "sku": "USB-C-2M",
+          "quantity": 2,
+          "unitPrice": 19.99,
+          "totalPrice": 39.98
+        }
+      ],
+      "shippingAddress": {
+        "fullName": "Ahmed Hassan",
+        "phone": "+20 100 123 4567",
+        "street": "123 Tahrir Square",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "country": "Egypt",
+        "postalCode": "11511"
+      },
+      "billingAddress": {
+        "fullName": "Ahmed Hassan",
+        "phone": "+20 100 123 4567",
+        "street": "123 Tahrir Square",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "country": "Egypt",
+        "postalCode": "11511"
+      },
+      "subtotal": 339.97,
+      "shippingFee": 15,
+      "tax": 34,
+      "discount": 0,
+      "total": 388.97,
+      "trackingNumber": "TRK123456789EG",
+      "trackingEvents": [
+        {
+          "id": "te-1",
+          "timestamp": "2024-01-10T08:00:00",
+          "status": "pending",
+          "description": "Order placed successfully"
+        },
+        {
+          "id": "te-2",
+          "timestamp": "2024-01-10T09:30:00",
+          "status": "confirmed",
+          "description": "Order confirmed by seller"
+        },
+        {
+          "id": "te-3",
+          "timestamp": "2024-01-10T14:00:00",
+          "status": "processing",
+          "description": "Order is being prepared",
+          "location": "Cairo Warehouse"
+        },
+        {
+          "id": "te-4",
+          "timestamp": "2024-01-11T09:00:00",
+          "status": "shipped",
+          "description": "Package shipped via DHL",
+          "location": "Cairo Sorting Center"
+        },
+        {
+          "id": "te-5",
+          "timestamp": "2024-01-12T10:30:00",
+          "status": "out_for_delivery",
+          "description": "Out for delivery",
+          "location": "Cairo East Hub"
+        },
+        {
+          "id": "te-6",
+          "timestamp": "2024-01-12T14:45:00",
+          "status": "delivered",
+          "description": "Package delivered successfully",
+          "location": "Cairo, 11511"
+        }
+      ],
+      "createdAt": "2024-01-10T08:00:00",
+      "updatedAt": "2024-01-12T14:45:00",
+      "estimatedDelivery": "2024-01-14"
+    },
+    {
+      "id": "2",
+      "orderNumber": "ORD-2024-002",
+      "customerId": "cust-2",
+      "customerName": "Sara Mohamed",
+      "customerEmail": "sara@example.com",
+      "status": "shipped",
+      "paymentStatus": "paid",
+      "paymentMethod": "paypal",
+      "items": [
+        {
+          "id": "item-3",
+          "productId": "prod-3",
+          "productName": "Smart Watch Series 5",
+          "productImage": "https://placehold.co/80",
+          "sku": "SW-S5-BLK",
+          "quantity": 1,
+          "unitPrice": 499,
+          "totalPrice": 499
+        }
+      ],
+      "shippingAddress": {
+        "fullName": "Sara Mohamed",
+        "phone": "+20 111 987 6543",
+        "street": "45 Corniche El Nil",
+        "city": "Alexandria",
+        "state": "Alexandria Governorate",
+        "country": "Egypt",
+        "postalCode": "21511"
+      },
+      "billingAddress": {
+        "fullName": "Sara Mohamed",
+        "phone": "+20 111 987 6543",
+        "street": "45 Corniche El Nil",
+        "city": "Alexandria",
+        "state": "Alexandria Governorate",
+        "country": "Egypt",
+        "postalCode": "21511"
+      },
+      "subtotal": 499,
+      "shippingFee": 20,
+      "tax": 49.9,
+      "discount": 50,
+      "total": 518.9,
+      "trackingNumber": "TRK987654321EG",
+      "trackingEvents": [
+        {
+          "id": "te-7",
+          "timestamp": "2024-01-13T10:00:00",
+          "status": "pending",
+          "description": "Order placed successfully"
+        },
+        {
+          "id": "te-8",
+          "timestamp": "2024-01-13T11:00:00",
+          "status": "confirmed",
+          "description": "Payment confirmed"
+        },
+        {
+          "id": "te-9",
+          "timestamp": "2024-01-14T09:00:00",
+          "status": "processing",
+          "description": "Preparing your order",
+          "location": "Alexandria Warehouse"
+        },
+        {
+          "id": "te-10",
+          "timestamp": "2024-01-14T16:00:00",
+          "status": "shipped",
+          "description": "Shipped via FedEx",
+          "location": "Alexandria Distribution Center"
+        }
+      ],
+      "createdAt": "2024-01-13T10:00:00",
+      "updatedAt": "2024-01-14T16:00:00",
+      "estimatedDelivery": "2024-01-16"
+    },
+    {
+      "id": "3",
+      "orderNumber": "ORD-2024-003",
+      "customerId": "cust-3",
+      "customerName": "Omar Khalil",
+      "customerEmail": "omar@example.com",
+      "status": "pending",
+      "paymentStatus": "unpaid",
+      "paymentMethod": "cash_on_delivery",
+      "items": [
+        {
+          "id": "item-4",
+          "productId": "prod-4",
+          "productName": "Laptop Stand Aluminium",
+          "productImage": "https://placehold.co/80",
+          "sku": "LS-ALU-SLV",
+          "quantity": 1,
+          "unitPrice": 89.99,
+          "totalPrice": 89.99
+        },
+        {
+          "id": "item-5",
+          "productId": "prod-5",
+          "productName": "Mechanical Keyboard",
+          "productImage": "https://placehold.co/80",
+          "sku": "MK-TKL-BLK",
+          "quantity": 1,
+          "unitPrice": 159.99,
+          "totalPrice": 159.99
+        }
+      ],
+      "shippingAddress": {
+        "fullName": "Omar Khalil",
+        "phone": "+20 122 456 7890",
+        "street": "78 Gesr El Suez",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "country": "Egypt",
+        "postalCode": "11371"
+      },
+      "billingAddress": {
+        "fullName": "Omar Khalil",
+        "phone": "+20 122 456 7890",
+        "street": "78 Gesr El Suez",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "country": "Egypt",
+        "postalCode": "11371"
+      },
+      "subtotal": 249.98,
+      "shippingFee": 15,
+      "tax": 25,
+      "discount": 0,
+      "total": 289.98,
+      "trackingEvents": [
+        {
+          "id": "te-11",
+          "timestamp": "2024-01-15T09:00:00",
+          "status": "pending",
+          "description": "Order placed, awaiting confirmation"
+        }
+      ],
+      "createdAt": "2024-01-15T09:00:00",
+      "updatedAt": "2024-01-15T09:00:00",
+      "estimatedDelivery": "2024-01-19"
+    },
+    {
+      "id": "4",
+      "orderNumber": "ORD-2024-004",
+      "customerId": "cust-4",
+      "customerName": "Nour El-Din",
+      "customerEmail": "nour@example.com",
+      "status": "cancelled",
+      "paymentStatus": "refunded",
+      "paymentMethod": "credit_card",
+      "items": [
+        {
+          "id": "item-6",
+          "productId": "prod-6",
+          "productName": "Gaming Mouse RGB",
+          "productImage": "https://placehold.co/80",
+          "sku": "GM-RGB-BLK",
+          "quantity": 1,
+          "unitPrice": 79.99,
+          "totalPrice": 79.99
+        }
+      ],
+      "shippingAddress": {
+        "fullName": "Nour El-Din",
+        "phone": "+20 100 999 8888",
+        "street": "12 El-Haram Street",
+        "city": "Giza",
+        "state": "Giza Governorate",
+        "country": "Egypt",
+        "postalCode": "12511"
+      },
+      "billingAddress": {
+        "fullName": "Nour El-Din",
+        "phone": "+20 100 999 8888",
+        "street": "12 El-Haram Street",
+        "city": "Giza",
+        "state": "Giza Governorate",
+        "country": "Egypt",
+        "postalCode": "12511"
+      },
+      "subtotal": 79.99,
+      "shippingFee": 10,
+      "tax": 8,
+      "discount": 0,
+      "total": 97.99,
+      "notes": "Customer requested cancellation",
+      "trackingEvents": [
+        {
+          "id": "te-12",
+          "timestamp": "2024-01-12T11:00:00",
+          "status": "pending",
+          "description": "Order placed"
+        },
+        {
+          "id": "te-13",
+          "timestamp": "2024-01-12T15:00:00",
+          "status": "cancelled",
+          "description": "Order cancelled by customer"
+        }
+      ],
+      "createdAt": "2024-01-12T11:00:00",
+      "updatedAt": "2024-01-12T15:00:00"
+    },
+    {
+      "id": "5",
+      "orderNumber": "ORD-2024-005",
+      "customerId": "cust-5",
+      "customerName": "Layla Ibrahim",
+      "customerEmail": "layla@example.com",
+      "status": "delivered",
+      "paymentStatus": "paid",
+      "paymentMethod": "bank_transfer",
+      "items": [
+        {
+          "id": "item-7",
+          "productId": "prod-7",
+          "productName": "4K Monitor 27\"",
+          "productImage": "https://placehold.co/80",
+          "sku": "MON-27-4K",
+          "quantity": 1,
+          "unitPrice": 699.99,
+          "totalPrice": 699.99
+        }
+      ],
+      "shippingAddress": {
+        "fullName": "Layla Ibrahim",
+        "phone": "+20 115 333 4444",
+        "street": "55 Port Said Street",
+        "city": "Port Said",
+        "state": "Port Said Governorate",
+        "country": "Egypt",
+        "postalCode": "42511"
+      },
+      "billingAddress": {
+        "fullName": "Layla Ibrahim",
+        "phone": "+20 115 333 4444",
+        "street": "55 Port Said Street",
+        "city": "Port Said",
+        "state": "Port Said Governorate",
+        "country": "Egypt",
+        "postalCode": "42511"
+      },
+      "subtotal": 699.99,
+      "shippingFee": 30,
+      "tax": 70,
+      "discount": 100,
+      "total": 699.99,
+      "trackingEvents": [
+        {
+          "id": "te-14",
+          "timestamp": "2024-01-14T08:00:00",
+          "status": "pending",
+          "description": "Order received"
+        },
+        {
+          "id": "te-15",
+          "timestamp": "2024-01-14T09:00:00",
+          "status": "confirmed",
+          "description": "Bank transfer confirmed"
+        },
+        {
+          "id": "te-16",
+          "timestamp": "2024-01-14T11:00:00",
+          "status": "processing",
+          "description": "Packing your order",
+          "location": "Port Said Hub"
+        }
+      ],
+      "createdAt": "2024-01-14T08:00:00",
+      "updatedAt": "2024-01-14T11:00:00",
+      "estimatedDelivery": "2024-01-17"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
