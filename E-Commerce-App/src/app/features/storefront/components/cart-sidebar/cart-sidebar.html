@@ -1,0 +1,62 @@
+<div class="cart-overlay" *ngIf="visible"></div>
+
+<div class="cart-sidebar" [class.open]="visible">
+
+  <!-- Header -->
+  <div class="cart-header">
+    <h5>
+      🛒 My Cart
+      <span class="cart-count-badge">{{ cart.length }}</span>
+    </h5>
+  </div>
+
+  <!-- Body -->
+  <div class="cart-body">
+
+    <div *ngIf="cart.length === 0" class="cart-empty">
+      Your cart is empty
+    </div>
+
+    <div *ngFor="let item of cart" class="cart-item">
+
+      <img [src]="item.product.image"
+           class="cart-item-img">
+
+      <div class="cart-item-info">
+
+        <div class="cart-item-title">
+          {{ item.product.title }}
+        </div>
+
+        <div class="cart-item-price">
+          ${{ item.product.price }}
+        </div>
+
+        <!-- 🔥 Quantity -->
+        <div class="cart-qty">
+          Qty: <strong>{{ item.quantity }}</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="cart-footer" *ngIf="cart.length > 0">
+
+    <div class="cart-total-row">
+      <span>Total</span>
+      <strong>
+        ${{ getTotal() | number:'1.2-2' }}
+      </strong>
+    </div>
+
+    <button class="btn btn-success w-100">
+      Checkout
+    </button>
+
+  </div>
+
+</div>

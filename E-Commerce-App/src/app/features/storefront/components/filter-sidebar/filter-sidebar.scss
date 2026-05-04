@@ -1,0 +1,51 @@
+/* ===== Filter Bar ===== */
+.filter-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ===== Filter Buttons ===== */
+.btn-filter {
+  background: #fff;
+  color: #5a6a8a;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 30px;
+  padding: 6px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  transition: all 0.22s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-filter:hover {
+  background: #f0f4ff;
+  border-color: #93b4f8;
+  color: #2563eb;
+}
+
+.btn-filter.active,
+.btn-filter:focus {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.25);
+  outline: none;
+}
+
+/* ===== All Button ===== */
+.btn-filter-all {
+  background: #1a2340;
+  color: #fff;
+  border-color: #1a2340;
+}
+
+.btn-filter-all:hover {
+  background: #2d3f6e;
+  border-color: #2d3f6e;
+  color: #fff;
+}

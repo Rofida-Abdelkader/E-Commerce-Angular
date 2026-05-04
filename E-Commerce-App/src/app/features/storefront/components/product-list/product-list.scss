@@ -1,0 +1,132 @@
+/* ===== Page Layout ===== */
+.storefront-container {
+  background: #f5f7fc;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ===== Navbar / Top Bar ===== */
+.store-topbar {
+  background: #fff;
+  border-bottom: 1px solid #eef0f6;
+  padding: 18px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+}
+
+.store-logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1a2340;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.store-logo span {
+  color: #2563eb;
+}
+
+/* ===== Cart Button ===== */
+.btn-cart {
+  position: relative;
+  background: #1a2340;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-cart:hover {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
+}
+
+.cart-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 2px 7px;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ===== Section Title ===== */
+.section-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a2340;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.section-sub {
+  font-size: 0.85rem;
+  color: #9aa5b8;
+  margin-top: 4px;
+}
+
+/* ===== Products Grid ===== */
+.products-grid {
+  margin-top: 24px;
+}
+
+/* ===== Staggered Fade In Animation ===== */
+.row > div {
+  animation: fadeUp 0.5s ease both;
+}
+
+.row > div:nth-child(1)  { animation-delay: 0.04s; }
+.row > div:nth-child(2)  { animation-delay: 0.08s; }
+.row > div:nth-child(3)  { animation-delay: 0.12s; }
+.row > div:nth-child(4)  { animation-delay: 0.16s; }
+.row > div:nth-child(5)  { animation-delay: 0.20s; }
+.row > div:nth-child(6)  { animation-delay: 0.24s; }
+.row > div:nth-child(7)  { animation-delay: 0.28s; }
+.row > div:nth-child(8)  { animation-delay: 0.32s; }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== No Results ===== */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9aa5b8;
+}
+
+.no-results i {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 12px;
+  color: #d1d9e6;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+}

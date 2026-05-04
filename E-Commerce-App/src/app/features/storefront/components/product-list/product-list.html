@@ -1,0 +1,76 @@
+<div class="storefront-container">
+
+  <!-- TOP BAR -->
+  <div class="store-topbar bg-dark text-white py-3">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <!-- Logo -->
+      <h4 class="m-0 fw-bold">
+        🛍️ ShopWave
+      </h4>
+
+      <!-- Search -->
+      <div style="width: 40%;">
+        <app-search-bar (searchChanged)="onSearch($event)"></app-search-bar>
+      </div>
+
+      <!-- Cart Button -->
+      <button class="btn btn-outline-light position-relative"
+              (click)="toggleCart()">
+
+        🛒 Cart
+
+        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"
+              *ngIf="getCartCount() > 0">
+          {{ getCartCount() }}
+        </span>
+
+      </button>
+
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="container py-4">
+
+    <!-- Heading -->
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">All Products</h2>
+      <p class="text-muted">Discover amazing deals</p>
+    </div>
+
+    <!-- FILTER -->
+    <div class="mb-3">
+      <app-filter-sidebar
+        (categorySelected)="onCategory($event)">
+      </app-filter-sidebar>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <div class="row g-4">
+
+      <ng-container *ngIf="products$ | async as products">
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3"
+             *ngFor="let item of filterProducts(products)">
+
+          <app-product-card
+            [product]="item"
+            (addToCart)="onAddToCart($event)">
+          </app-product-card>
+
+        </div>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+  <!-- CART SIDEBAR -->
+  <app-cart-sidebar
+    [cart]="cart"
+    [visible]="showCart">
+  </app-cart-sidebar>
+
+</div>
