@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
+
 
 export const CART_ROUTES: Routes = [
   {
@@ -8,6 +10,7 @@ export const CART_ROUTES: Routes = [
   },
   {
     path: 'checkout',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./components/checkout/checkout').then((m) => m.CheckoutComponent),
   },
