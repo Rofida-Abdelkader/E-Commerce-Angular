@@ -32,11 +32,11 @@ export class CartService {
     }
   }
 
-  removeFromCart(productId: string): void {
+  removeFromCart(productId: number): void {
     this.cartItems.update(items => items.filter(i => i.productId !== productId));
   }
 
-  updateQuantity(productId: string, quantity: number): void {
+  updateQuantity(productId: number, quantity: number): void {
     if (quantity <= 0) {
       this.removeFromCart(productId);
       return;

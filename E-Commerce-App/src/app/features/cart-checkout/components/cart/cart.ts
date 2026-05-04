@@ -13,15 +13,15 @@ export class CartComponent {
   cartService = inject(CartService);
   private router = inject(Router);
 
-  increaseQuantity(productId: string, quantity: number): void {
+  increaseQuantity(productId: number, quantity: number): void {
     this.cartService.updateQuantity(productId, quantity + 1);
   }
 
-  decreaseQuantity(productId: string, quantity: number): void {
+  decreaseQuantity(productId: number, quantity: number): void {
     this.cartService.updateQuantity(productId, quantity - 1);
   }
 
-  removeItem(productId: string): void {
+  removeItem(productId: number): void {
     this.cartService.removeFromCart(productId);
   }
 
