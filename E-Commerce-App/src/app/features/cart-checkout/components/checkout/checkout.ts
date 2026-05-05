@@ -36,7 +36,13 @@ export class CheckoutComponent {
     this.isSubmitting = true;
 
     const order = {
-      items: this.cartService.items(),
+      items: this.cartService.items().map(item => ({
+        productId: item.product.id,
+        title: item.product.title,
+        price: item.product.price,
+        quantity: item.quantity,
+        image: item.product.image
+      })),
       totalPrice: this.cartService.totalPrice(),
       customer: this.checkoutForm.value,
       paymentMethod: 'cash' as const,

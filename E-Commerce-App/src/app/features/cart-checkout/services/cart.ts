@@ -14,26 +14,26 @@ export class CartService {
   );
 
   totalPrice = computed(() =>
-    this.cartItems().reduce((acc, item) => acc + item.price * item.quantity, 0)
+    this.cartItems().reduce((acc, item) => acc + item.product.price * item.quantity, 0)
   );
 
-  addToCart(product: CartItem): void {
-    const existing = this.cartItems().find(i => i.productId === product.productId);
+  addToCart(item: CartItem): void {
+    const existing = this.cartItems().find(i => i.product.id === item.product.id);
     if (existing) {
       this.cartItems.update(items =>
         items.map(i =>
-          i.productId === product.productId
+          i.product.id === item.product.id
             ? { ...i, quantity: i.quantity + 1 }
             : i
         )
       );
     } else {
-      this.cartItems.update(items => [...items, { ...product, quantity: 1 }]);
+      this.cartItems.update(items => [...items, { ...item, quantity: 1 }]);
     }
   }
 
   removeFromCart(productId: number): void {
-    this.cartItems.update(items => items.filter(i => i.productId !== productId));
+    this.cartItems.update(items => items.filter(i => i.product.id !== productId));
   }
 
   updateQuantity(productId: number, quantity: number): void {
@@ -43,7 +43,7 @@ export class CartService {
     }
     this.cartItems.update(items =>
       items.map(i =>
-        i.productId === productId ? { ...i, quantity } : i
+        i.product.id === productId ? { ...i, quantity } : i
       )
     );
   }

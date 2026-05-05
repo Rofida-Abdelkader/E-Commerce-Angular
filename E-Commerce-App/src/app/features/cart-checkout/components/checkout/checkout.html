@@ -4,10 +4,10 @@
   <!-- Order Summary -->
   <div class="order-summary">
     <h2>Order Summary</h2>
-    @for (item of cartService.items(); track item.productId) {
+    @for (item of cartService.items(); track item.product.id) {
       <div class="summary-item">
-        <span>{{ item.name }} x{{ item.quantity }}</span>
-        <span>${{ item.price * item.quantity }}</span>
+        <span>{{ item.product.title }} x{{ item.quantity }}</span>
+        <span>${{ item.product.price * item.quantity }}</span>
       </div>
     }
     <div class="summary-total">
