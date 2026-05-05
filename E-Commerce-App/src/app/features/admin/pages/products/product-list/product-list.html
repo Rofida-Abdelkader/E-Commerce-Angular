@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1>Products</h1>
+  <a routerLink="/admin/products/add" class="btn-primary">+ Add Product</a>
+</div>
+
+<div class="filters">
+  <select (change)="onCategoryChange($event)">
+    <option value="">All Categories</option>
+    <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+  </select>
+</div>
+
+<div *ngIf="loading" class="loading">Loading...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<table *ngIf="!loading && products.length > 0">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.id }}</td>
+      <td>
+        <img [src]="product.imageUrl" [alt]="product.name" class="product-img" />
+      </td>
+      <td>{{ product.name }}</td>
+      <td>{{ getCategoryName(product.categoryId) }}</td>
+      <td>${{ product.price }}</td>
+      <td class="actions">
+        <a [routerLink]="['/admin/products/edit', product.id]" class="btn-edit">Edit</a>
+        <button (click)="delete(product.id)" class="btn-delete">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && products.length === 0" class="empty">
+  No products found.
+</div>
