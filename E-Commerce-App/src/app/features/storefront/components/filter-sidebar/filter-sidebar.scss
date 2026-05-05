@@ -1,0 +1,40 @@
+/* ===== Filter Bar ===== */
+
+.btn-filter {
+  background: #fff8f2;
+  color: #7a5540;
+  border: 1.5px solid #e8d8c8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: #fdeede;
+    border-color: #c97c4a;
+    color: #c97c4a;
+  }
+
+  &.active,
+  &:focus {
+    background: #c97c4a;
+    border-color: #c97c4a;
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(201, 124, 74, 0.3);
+    outline: none;
+  }
+}
+
+.btn-filter-all {
+  background: #3d2b1f;
+  color: #fff8f2;
+  border-color: #3d2b1f;
+
+  &:hover {
+    background: #5a3e2e;
+    border-color: #5a3e2e;
+    color: #fff;
+  }
+}
