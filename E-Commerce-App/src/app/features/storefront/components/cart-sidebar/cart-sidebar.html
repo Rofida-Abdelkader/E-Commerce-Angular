@@ -1,0 +1,70 @@
+<div class="cart-overlay"
+     *ngIf="visible"
+     (click)="close.emit()">
+</div>
+
+<div class="cart-sidebar d-flex flex-column" [class.open]="visible">
+
+  <!-- Header -->
+  <div class="cart-header d-flex align-items-center justify-content-between px-4 py-3 border-bottom flex-shrink-0">
+    <h5 class="m-0 fw-bold d-flex align-items-center gap-2">
+      🛒 My Cart
+      <span class="cart-count-badge badge rounded-pill">{{ cart.length }}</span>
+    </h5>
+  </div>
+
+  <!-- Body -->
+  <div class="cart-body flex-grow-1 overflow-auto px-3 py-3">
+
+    <div *ngIf="cart.length === 0" class="cart-empty d-flex flex-column align-items-center justify-content-center h-100 text-center py-5">
+      <i class="bi bi-cart-x fs-1 mb-3 text-muted"></i>
+      <p class="text-muted mb-0">Your cart is empty</p>
+    </div>
+
+    <div *ngFor="let item of cart" class="cart-item d-flex align-items-center gap-3 rounded-3 p-3 mb-2">
+
+      <img [src]="item.product.image"
+           class="cart-item-img rounded-2 flex-shrink-0">
+
+      <div class="cart-item-info flex-grow-1 overflow-hidden">
+
+        <div class="cart-item-title fw-semibold text-truncate">
+          {{ item.product.title }}
+        </div>
+
+        <div class="cart-item-price fw-bold">
+          ${{ item.product.price }}
+        </div>
+
+        <!-- Quantity -->
+        <div class="d-flex align-items-center gap-2 mt-2">
+          <button class="btn btn-qty btn-sm"
+                  (click)="decrease.emit(item.product.id)">−</button>
+          <strong class="qty-num">{{ item.quantity }}</strong>
+          <button class="btn btn-qty btn-sm"
+                  (click)="increase.emit(item.product.id)">+</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="cart-footer px-4 py-3 border-top flex-shrink-0" *ngIf="cart.length > 0">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <span class="fw-semibold text-muted small">Total</span>
+      <strong class="cart-total-price">
+        ${{ getTotal() | number:'1.2-2' }}
+      </strong>
+    </div>
+
+    <button class="btn btn-checkout w-100 rounded-3 fw-bold">
+      Checkout
+    </button>
+
+  </div>
+
+</div>
