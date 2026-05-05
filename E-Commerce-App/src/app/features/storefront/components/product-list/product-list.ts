@@ -92,4 +92,31 @@ export class ProductList {
   getCartCount(): number {
     return this.cart.reduce((sum, item) => sum + item.quantity, 0);
   }
+
+  // quantity
+  increaseQty(productId: number) {
+  const item = this.cart.find(i => i.product.id === productId);
+  if (item) {
+    item.quantity++;
+    this.saveCart();
+  }
+}
+
+decreaseQty(productId: number) {
+  const index = this.cart.findIndex(i => i.product.id === productId);
+
+  if (index > -1) {
+    if (this.cart[index].quantity > 1) {
+      this.cart[index].quantity--;
+    } else {
+      this.cart.splice(index, 1); // 👈 remove لو بقت 0
+    }
+
+    this.saveCart();
+  }
+}
+
+saveCart() {
+  localStorage.setItem('cart', JSON.stringify(this.cart));
+}
 }

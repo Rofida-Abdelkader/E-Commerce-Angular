@@ -1,127 +1,86 @@
 /* ===== Product Card ===== */
+
 .product-card {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: #fffaf6;
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.35s ease;
-  overflow: hidden;
-  position: relative;
-}
 
-.product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  &:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 18px 45px rgba(100, 60, 30, 0.13) !important;
+
+    .product-img {
+      transform: scale(1.07);
+      filter: drop-shadow(0 8px 18px rgba(100, 60, 30, 0.16));
+    }
+  }
 }
 
 /* ===== Image Wrapper ===== */
 .image-wrapper {
-  position: relative;
-  height: 230px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2fa 100%);
-  padding: 28px;
-  overflow: hidden;
+  height: 220px;
+  background: linear-gradient(135deg, #fdf3e7 0%, #fae8d0 100%);
 }
 
-.image-wrapper img {
+.product-img {
   max-height: 100%;
   max-width: 100%;
   object-fit: contain;
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-              filter 0.3s ease;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
-}
-
-.product-card:hover .image-wrapper img {
-  transform: scale(1.08);
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.14));
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  filter: drop-shadow(0 4px 10px rgba(100, 60, 30, 0.1));
 }
 
 /* ===== Category Badge ===== */
 .category-badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 248, 240, 0.92);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #5a6a8a;
+  color: #9a5c35;
   font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 30px;
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  border: 1px solid rgba(255,255,255,0.6);
-}
-
-/* ===== Card Body ===== */
-.card-body {
-  padding: 1.25rem 1.4rem 1.4rem !important;
-  background: #fff;
+  border: 1px solid rgba(201, 124, 74, 0.2);
+  box-shadow: 0 2px 8px rgba(100, 60, 30, 0.08);
 }
 
 /* ===== Product Title ===== */
 .product-title {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #1a2340;
+  font-size: 0.9rem;
+  color: #3d2b1f;
   line-height: 1.45;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 2.7rem;
-  margin-bottom: 0;
+  min-height: 2.6rem;
 }
 
-/* ===== Price Section ===== */
-.price-section {
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-  color: #2563eb;
-}
+/* ===== Price ===== */
+.price-section { color: #c97c4a; }
 
-.currency {
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-top: 3px;
-}
+.currency { font-size: 0.85rem; }
 
-.price-value {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
+.price-value { font-size: 1.45rem; letter-spacing: -0.02em; }
 
 /* ===== Add to Cart Button ===== */
 .btn-add-cart {
-  background: linear-gradient(135deg, #1a2340 0%, #2d3f6e 100%);
-  color: #fff;
+  background: #3d2b1f;
+  color: #fff8f2;
   border: none;
-  border-radius: 10px;
-  padding: 11px 16px;
-  font-size: 0.88rem;
+  font-size: 0.87rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  transition: all 0.3s ease;
-  width: 100%;
-}
+  padding: 11px 16px;
+  transition: all 0.28s ease;
 
-.btn-add-cart:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
-  transform: translateY(-1px);
-}
+  &:hover {
+    background: #c97c4a;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(201, 124, 74, 0.35);
+    transform: translateY(-1px);
+  }
 
-.btn-add-cart:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(201, 124, 74, 0.2);
+  }
 }
