@@ -1,0 +1,63 @@
+<div class="checkout-container">
+  <h1>Checkout</h1>
+
+  <!-- Order Summary -->
+  <div class="order-summary">
+    <h2>Order Summary</h2>
+    @for (item of cartService.items(); track item.product.id) {
+      <div class="summary-item">
+        <span>{{ item.product.title }} x{{ item.quantity }}</span>
+        <span>${{ item.product.price * item.quantity }}</span>
+      </div>
+    }
+    <div class="summary-total">
+      <span>Total</span>
+      <span>${{ cartService.totalPrice() }}</span>
+    </div>
+    <p class="cash-label">💵 Cash on Delivery</p>
+  </div>
+
+  <!-- Checkout Form -->
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input formControlName="fullName" type="text" placeholder="Enter your full name" />
+      @if (checkoutForm.get('fullName')?.invalid && checkoutForm.get('fullName')?.touched) {
+        <p class="error">Full name is required (min 3 characters)</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input formControlName="phone" type="tel" placeholder="01XXXXXXXXX" />
+      @if (checkoutForm.get('phone')?.invalid && checkoutForm.get('phone')?.touched) {
+        <p class="error">Enter a valid 11-digit phone number</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Address</label>
+      <input formControlName="address" type="text" placeholder="Enter your address" />
+      @if (checkoutForm.get('address')?.invalid && checkoutForm.get('address')?.touched) {
+        <p class="error">Address is required</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>City</label>
+      <input formControlName="city" type="text" placeholder="Enter your city" />
+      @if (checkoutForm.get('city')?.invalid && checkoutForm.get('city')?.touched) {
+        <p class="error">City is required</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Notes (Optional)</label>
+      <textarea formControlName="notes" placeholder="Any special instructions?" rows="3"></textarea>
+    </div>
+
+    <button type="submit" [disabled]="isSubmitting" class="submit-btn">
+      {{ isSubmitting ? 'Placing Order...' : 'Place Order' }}
+    </button>
+  </form>
+</div>
