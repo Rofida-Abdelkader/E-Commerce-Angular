@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import {
   Order, OrderFilters, OrdersResponse, OrderStats, OrderStatus,
@@ -7,8 +7,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'http://localhost:3000'; 
 
   constructor(private http: HttpClient) {}
 
@@ -29,44 +28,52 @@ export class OrderService {
           );
         }
 
-        const total = filtered.length;
+        const totalCount = filtered.length;
         const start = (filters.page - 1) * filters.pageSize;
         const paged = filtered.slice(start, start + filters.pageSize);
 
         return {
           orders: paged,
-          total,
+          total: totalCount,
           page: filters.page,
           pageSize: filters.pageSize,
-          totalPages: Math.ceil(total / filters.pageSize),
+          totalPages: Math.ceil(totalCount / filters.pageSize),
         };
       })
     );
   }
 
-  getOrderByNumber(orderNumber: string): Observable<Order | undefined> {
-    return this.http.get<Order[]>(`${this.baseUrl}/orders?orderNumber=${orderNumber}`).pipe(
-      map(orders => orders[0])
-    );
-  }
-
   updateOrderStatus(id: string, status: OrderStatus): Observable<Order> {
+    // PATCH عشان نحدث الحالة فقط في السيرفر
     return this.http.patch<Order>(`${this.baseUrl}/orders/${id}`, { status });
   }
 
+  getOrderByNumber(orderNumber: string): Observable<Order | undefined> {
+  return this.http.get<Order[]>(`${this.baseUrl}/orders?orderNumber=${orderNumber}`).pipe(
+    map(orders => orders[0])
+  );
+}
+
   getOrderStats(): Observable<OrderStats> {
     return this.http.get<Order[]>(`${this.baseUrl}/orders`).pipe(
-      map((orders) => ({
-        totalOrders: orders.length,
-        pendingOrders: orders.filter(o => o.status === 'pending').length,
-        processingOrders: orders.filter(o => o.status === 'processing').length,
-        deliveredOrders: orders.filter(o => o.status === 'delivered').length,
-        cancelledOrders: orders.filter(o => o.status === 'cancelled').length,
-        totalRevenue: orders.reduce((s, o) => s + o.total, 0),
-        avgOrderValue: orders.length ? orders.reduce((s, o) => s + o.total, 0) / orders.length : 0,
-        todayOrders: 0,
-        todayRevenue: 0,
-      }))
+      map((orders) => {
+        const today = new Date().toDateString();
+        const todayOrdersList = orders.filter(o => 
+          o.createdAt && new Date(o.createdAt).toDateString() === today
+        );
+
+        return {
+          totalOrders: orders.length,
+          pendingOrders: orders.filter(o => o.status === 'pending').length,
+          processingOrders: orders.filter(o => o.status === 'processing').length,
+          deliveredOrders: orders.filter(o => o.status === 'delivered').length,
+          cancelledOrders: orders.filter(o => o.status === 'cancelled').length,
+          totalRevenue: orders.reduce((s, o) => s + (o.total || 0), 0),
+          avgOrderValue: orders.length ? orders.reduce((s, o) => s + (o.total || 0), 0) / orders.length : 0,
+          todayOrders: todayOrdersList.length,
+          todayRevenue: todayOrdersList.reduce((s, o) => s + (o.total || 0), 0),
+        } as OrderStats;
+      })
     );
   }
 }
