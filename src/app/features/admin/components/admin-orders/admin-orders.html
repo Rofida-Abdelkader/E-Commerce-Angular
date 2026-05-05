@@ -1,0 +1,227 @@
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar__logo">
+      <span>⚡</span>
+      <span class="logo-text">OrderCraft</span>
+    </div>
+    <nav class="sidebar__nav">
+      <a class="nav-link nav-link--active">
+        <span>📦</span><span>Orders</span>
+        <span class="nav-badge">{{ stats?.totalOrders }}</span>
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <div class="admin-avatar">A</div>
+      <div>
+        <div class="admin-name">Admin</div>
+        <div class="admin-role">Super Admin</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <div>
+        <h1 class="page-title">Order Management</h1>
+        <p class="page-sub">Manage and track all customer orders</p>
+      </div>
+      <div class="today">📅 {{ today | date:'mediumDate' }}</div>
+    </header>
+
+    <!-- Stats -->
+    @if (stats) {
+      <div class="stats-grid">
+        <div class="stat stat--indigo"><div class="stat__icon">📦</div><div class="stat__val">{{ stats.totalOrders }}</div><div class="stat__lbl">Total Orders</div></div>
+        <div class="stat stat--amber"><div class="stat__icon">⏳</div><div class="stat__val">{{ stats.pendingOrders }}</div><div class="stat__lbl">Pending</div></div>
+        <div class="stat stat--violet"><div class="stat__icon">⚙️</div><div class="stat__val">{{ stats.processingOrders }}</div><div class="stat__lbl">Processing</div></div>
+        <div class="stat stat--emerald"><div class="stat__icon">✅</div><div class="stat__val">{{ stats.deliveredOrders }}</div><div class="stat__lbl">Delivered</div></div>
+        <div class="stat stat--cyan"><div class="stat__icon">💰</div><div class="stat__val">${{ stats.totalRevenue | number:'1.0-0' }}</div><div class="stat__lbl">Revenue</div></div>
+        <div class="stat stat--rose"><div class="stat__icon">❌</div><div class="stat__val">{{ stats.cancelledOrders }}</div><div class="stat__lbl">Cancelled</div></div>
+      </div>
+    }
+
+    <!-- Table Card -->
+    <div class="table-card">
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar__left">
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-field" type="text" placeholder="Search orders..."
+              [(ngModel)]="searchQuery" (input)="onSearch()" />
+          </div>
+          <select class="filter-select" [(ngModel)]="statusFilter" (change)="onFilterChange()">
+            <option value="">All Statuses</option>
+            @for (s of statusOptions; track s.value) {
+              <option [value]="s.value">{{ s.label }}</option>
+            }
+          </select>
+        </div>
+        @if (!tableLoading) {
+          <span class="results-count">{{ totalOrders }} orders</span>
+        }
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        @if (!tableLoading && orders.length) {
+          <table class="table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" [(ngModel)]="allSelected" (change)="toggleAll()" /></th>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (order of orders; track order.id) {
+                <tr [class.row--selected]="selectedOrders.has(order.id)">
+                  <td><input type="checkbox" [checked]="selectedOrders.has(order.id)" (change)="toggleOrder(order.id)" /></td>
+                  <td>
+                    <div class="order-num">{{ order.orderNumber }}</div>
+                    @if (order.trackingNumber) {
+                      <div class="order-track">{{ order.trackingNumber }}</div>
+                    }
+                  </td>
+                  <td>
+                    <div class="customer-cell">
+                      <div class="customer-avatar">{{ order.customerName[0] }}</div>
+                      <div>
+                        <div class="customer-name">{{ order.customerName }}</div>
+                        <div class="customer-email">{{ order.customerEmail }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="item-count">{{ order.items.length }} item{{ order.items.length !== 1 ? 's' : '' }}</span></td>
+                  <td><app-status-badge [orderStatus]="order.status" type="order" /></td>
+                  <td><app-status-badge [paymentStatus]="order.paymentStatus" type="payment" /></td>
+                  <td><span class="order-total">${{ order.total | number:'1.2-2' }}</span></td>
+                  <td><span class="order-date">{{ order.createdAt | date:'MMM d, y' }}</span></td>
+                  <td>
+                    <div class="actions">
+                      <button class="action-btn" (click)="viewOrder(order)" title="View">👁</button>
+                      <div class="dropdown">
+                        <button class="action-btn" title="Change Status">✏️</button>
+                        <div class="dropdown__menu">
+                          @for (s of statusOptions; track s.value) {
+                            <button class="dropdown__item"
+                              [class.dropdown__item--active]="order.status === s.value"
+                              (click)="changeStatus(order, s.value)">
+                              {{ s.label }}
+                            </button>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+
+        @if (tableLoading) {
+          <div class="state-center">
+            <div class="spinner"></div>
+            <p>Loading orders...</p>
+          </div>
+        }
+
+        @if (!tableLoading && !orders.length) {
+          <div class="state-center">
+            <div style="font-size:40px">📭</div>
+            <div class="state-title">No orders found</div>
+            <div class="state-sub">Try adjusting your filters</div>
+          </div>
+        }
+      </div>
+
+      <!-- Pagination -->
+      @if (totalPages > 1) {
+        <div class="table-footer">
+          <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+          <div class="page-controls">
+            <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(1)">««</button>
+            <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">‹</button>
+            @for (p of pageNumbers; track p) {
+              <button class="page-btn" [class.page-btn--active]="p === currentPage" (click)="goToPage(p)">{{ p }}</button>
+            }
+            <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">›</button>
+            <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(totalPages)">»»</button>
+          </div>
+        </div>
+      }
+    </div>
+  </main>
+
+  <!-- Drawer Overlay -->
+  @if (selectedOrder) {
+    <div class="overlay" (click)="closeDrawer()"></div>
+    <div class="drawer drawer--open">
+      <div class="drawer__header">
+        <div>
+          <h2 class="drawer__title">{{ selectedOrder.orderNumber }}</h2>
+          <p class="drawer__sub">{{ selectedOrder.createdAt | date:'medium' }}</p>
+        </div>
+        <button class="drawer__close" (click)="closeDrawer()">✕</button>
+      </div>
+      <div class="drawer__body">
+        <div class="drawer-section">
+          <h3>Status</h3>
+          <div class="drawer-badges">
+            <app-status-badge [orderStatus]="selectedOrder.status" type="order" />
+            <app-status-badge [paymentStatus]="selectedOrder.paymentStatus" type="payment" />
+          </div>
+        </div>
+        <div class="drawer-section">
+          <h3>Customer</h3>
+          <p class="dinfo">{{ selectedOrder.customerName }}</p>
+          <p class="dinfo dinfo--muted">{{ selectedOrder.customerEmail }}</p>
+        </div>
+        <div class="drawer-section">
+          <h3>Shipping Address</h3>
+          <p class="dinfo">{{ selectedOrder.shippingAddress.street }}</p>
+          <p class="dinfo dinfo--muted">{{ selectedOrder.shippingAddress.city }}, {{ selectedOrder.shippingAddress.country }}</p>
+        </div>
+        <div class="drawer-section">
+          <h3>Items ({{ selectedOrder.items.length }})</h3>
+          @for (item of selectedOrder.items; track item.id) {
+            <div class="drawer-item">
+              <span class="drawer-item__name">{{ item.productName }}</span>
+              <span class="drawer-item__meta">x{{ item.quantity }} · ${{ item.totalPrice | number:'1.2-2' }}</span>
+            </div>
+          }
+        </div>
+        <div class="drawer-section">
+          <h3>Total</h3>
+          <div class="drawer-total">${{ selectedOrder.total | number:'1.2-2' }}</div>
+        </div>
+        <div class="drawer-section">
+          <h3>Update Status</h3>
+          <div class="status-actions">
+            @for (s of statusOptions; track s.value) {
+              <button class="status-btn"
+                [class.status-btn--active]="selectedOrder.status === s.value"
+                (click)="changeStatus(selectedOrder, s.value)">
+                {{ s.label }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
