@@ -3,11 +3,11 @@ import { authGuard } from './guards/auth-guard';
 
 
 export const CART_ROUTES: Routes = [
-  {
-    path: '',
-    loadComponent: () =>
-      import('./components/cart/cart').then((m) => m.CartComponent),
-  },
+  // {
+  //   path: '',
+  //   loadComponent: () =>
+  //     import('./components/cart/cart').then((m) => m.CartComponent),
+  // },
   {
     path: 'checkout',
     canActivate: [authGuard],

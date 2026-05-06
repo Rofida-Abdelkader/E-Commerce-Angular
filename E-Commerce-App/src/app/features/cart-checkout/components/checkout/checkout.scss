@@ -2,16 +2,20 @@
   max-width: 700px;
   margin: 2rem auto;
   padding: 1.5rem;
+  background: #fdf5ec;
+  min-height: 100vh;
 
   h1 {
     font-size: 1.8rem;
     font-weight: bold;
+    color: #3d2b1f;
     margin-bottom: 1.5rem;
   }
 }
 
 .order-summary {
-  background-color: #f9fafb;
+  background-color: #fff8f0;
+  border: 1px solid #f0ddc8;
   padding: 1.2rem;
   border-radius: 10px;
   margin-bottom: 1.5rem;
@@ -19,6 +23,7 @@
   h2 {
     font-size: 1.2rem;
     font-weight: 600;
+    color: #3d2b1f;
     margin-bottom: 0.75rem;
   }
 }
@@ -28,7 +33,7 @@
   justify-content: space-between;
   font-size: 0.9rem;
   padding: 0.25rem 0;
-  color: #374151;
+  color: #6b4c3b;
 }
 
 .summary-total {
@@ -36,13 +41,14 @@
   justify-content: space-between;
   font-weight: bold;
   font-size: 1rem;
-  border-top: 1px solid #e5e7eb;
+  color: #3d2b1f;
+  border-top: 1px solid #f0ddc8;
   margin-top: 0.75rem;
   padding-top: 0.75rem;
 }
 
 .cash-label {
-  color: #16a34a;
+  color: #c97c4a;
   font-weight: 600;
   font-size: 0.9rem;
   margin-top: 0.5rem;
@@ -56,20 +62,22 @@
   label {
     font-size: 0.9rem;
     font-weight: 500;
+    color: #3d2b1f;
     margin-bottom: 0.4rem;
   }
 
   input,
   textarea {
-    border: 1px solid #d1d5db;
+    border: 1px solid #f0ddc8;
     border-radius: 8px;
     padding: 0.75rem;
     font-size: 1rem;
+    background: #fff8f0;
     outline: none;
 
     &:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      border-color: #c97c4a;
+      box-shadow: 0 0 0 2px rgba(201, 124, 74, 0.2);
     }
   }
 
@@ -79,24 +87,27 @@
 }
 
 .error {
-  color: #ef4444;
+  color: #e05c2a;
   font-size: 0.8rem;
   margin-top: 0.3rem;
 }
 
 .submit-btn {
   width: 100%;
-  background-color: #22c55e;
-  color: white;
+  background-color: #3d2b1f;
+  color: #fff8f2;
   padding: 0.85rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.25s ease;
 
   &:hover {
-    background-color: #16a34a;
+    background-color: #c97c4a;
+    box-shadow: 0 4px 15px rgba(201, 124, 74, 0.32);
+    transform: translateY(-1px);
   }
 
   &:disabled {

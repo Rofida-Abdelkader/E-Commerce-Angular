@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-
 import { ProductService, Product } from '../../services/product.service';
 import { ProductCardComponent } from '../product-card/product-card';
 import { SearchBarComponent } from '../search-bar/search-bar';
 import { FilterSidebarComponent } from '../filter-sidebar/filter-sidebar';
 import { CartSidebarComponent } from '../cart-sidebar/cart-sidebar';
+import { CartService } from '../../../cart-checkout/services/cart';
 
 interface CartItem {
   product: Product;
@@ -27,21 +27,19 @@ interface CartItem {
   styleUrl: './product-list.scss'
 })
 export class ProductList {
-
   products$: Observable<Product[]>;
-
-  cart: CartItem[] = [];
-
+  private cartService = inject(CartService);
+  
+  get cart() {
+    return this.cartService.items();
+  }
+  
   showCart = false;
-
   searchTerm = '';
   category = '';
 
   constructor(private productService: ProductService) {
     this.products$ = this.productService.getProducts();
-
-    const saved = localStorage.getItem('cart');
-    this.cart = saved ? JSON.parse(saved) : [];
   }
 
   toggleCart() {
@@ -49,22 +47,7 @@ export class ProductList {
   }
 
   onAddToCart(product: Product) {
-
-    const existing = this.cart.find(
-      item => item.product.id === product.id
-    );
-
-    if (existing) {
-      existing.quantity += 1;
-    } else {
-      this.cart.push({
-        product,
-        quantity: 1
-      });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(this.cart));
-
+    this.cartService.addToCart({ product, quantity: 1 });
     this.showCart = true;
   }
 
@@ -78,45 +61,23 @@ export class ProductList {
 
   filterProducts(products: Product[]) {
     return products.filter(p => {
-
-      const matchSearch =
-        p.title.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-      const matchCategory =
-        !this.category || p.category === this.category;
-
+      const matchSearch = p.title.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchCategory = !this.category || p.category === this.category;
       return matchSearch && matchCategory;
     });
   }
 
   getCartCount(): number {
-    return this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    return this.cartService.totalQuantity();
   }
 
-  // quantity
   increaseQty(productId: number) {
-  const item = this.cart.find(i => i.product.id === productId);
-  if (item) {
-    item.quantity++;
-    this.saveCart();
+    const item = this.cart.find(i => i.product.id === productId);
+    if (item) this.cartService.updateQuantity(productId, item.quantity + 1);
   }
-}
 
-decreaseQty(productId: number) {
-  const index = this.cart.findIndex(i => i.product.id === productId);
-
-  if (index > -1) {
-    if (this.cart[index].quantity > 1) {
-      this.cart[index].quantity--;
-    } else {
-      this.cart.splice(index, 1); // 👈 remove لو بقت 0
-    }
-
-    this.saveCart();
+  decreaseQty(productId: number) {
+    const item = this.cart.find(i => i.product.id === productId);
+    if (item) this.cartService.updateQuantity(productId, item.quantity - 1);
   }
-}
-
-saveCart() {
-  localStorage.setItem('cart', JSON.stringify(this.cart));
-}
 }

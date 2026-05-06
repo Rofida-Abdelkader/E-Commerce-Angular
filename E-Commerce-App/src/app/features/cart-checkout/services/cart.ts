@@ -1,11 +1,11 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 import { Cart, CartItem } from '../../../core/models/cart.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cartItems = signal<CartItem[]>([]);
+  private cartItems = signal<CartItem[]>(this.loadFromStorage());
 
   items = this.cartItems.asReadonly();
 
@@ -16,6 +16,17 @@ export class CartService {
   totalPrice = computed(() =>
     this.cartItems().reduce((acc, item) => acc + item.product.price * item.quantity, 0)
   );
+
+  constructor() {
+    effect(() => {
+      localStorage.setItem('cart', JSON.stringify(this.cartItems()));
+    });
+  }
+
+  private loadFromStorage(): CartItem[] {
+    const saved = localStorage.getItem('cart');
+    return saved ? JSON.parse(saved) : [];
+  }
 
   addToCart(item: CartItem): void {
     const existing = this.cartItems().find(i => i.product.id === item.product.id);
@@ -50,6 +61,7 @@ export class CartService {
 
   clearCart(): void {
     this.cartItems.set([]);
+    localStorage.removeItem('cart');
   }
 
   getCart(): Cart {
