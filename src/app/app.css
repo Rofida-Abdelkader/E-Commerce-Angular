@@ -36,20 +36,43 @@ html, body {
 }
 
 .app-header {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%) !important;
   color: white;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 9999;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  border: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.nav-link.active {
+  color: #3B82F6;
+  background-color: white;
+  border-color: white;
+  font-weight: 700;
 }
 
 .header-content {
   max-width: 1400px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 2rem;
 }
@@ -58,41 +81,43 @@ html, body {
   font-size: 1.5rem;
   font-weight: 700;
   white-space: nowrap;
+  color: white;
 }
 
 .app-nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: white;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.95rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.25rem;
   border-radius: 0.375rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 .nav-link:hover {
   color: white;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
 .nav-link.active {
-  color: white;
-  background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  color: #3B82F6;
+  background-color: white;
+  border-color: white;
+  font-weight: 700;
 }
 
 .app-main {
   flex: 1;
-  max-width: 1400px;
   width: 100%;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0;
 }
 
 .app-footer {
@@ -106,21 +131,16 @@ html, body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
+  .app-header {
+    padding: 1rem;
   }
 
-  .app-title {
-    font-size: 1.25rem;
+  .header-content {
+    justify-content: center;
   }
 
   .app-nav {
     width: 100%;
     justify-content: center;
-  }
-
-  .app-main {
-    padding: 1rem 0.5rem;
   }
 }

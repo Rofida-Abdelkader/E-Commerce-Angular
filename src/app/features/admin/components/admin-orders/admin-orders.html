@@ -6,10 +6,18 @@
       <span class="text">OrderCraft</span>
     </div>
     <nav class="sidebar-menu">
-      <a class="menu-item active">
+      <a routerLink="/admin" routerLinkActive="active" class="menu-item">
         <span class="icon">📦</span>
         <span class="text">Orders</span>
         <span class="badge">{{ stats?.totalOrders || 0 }}</span>
+      </a>
+      <a routerLink="/admin/products" routerLinkActive="active" class="menu-item">
+        <span class="icon">🛍️</span>
+        <span class="text">Products</span>
+      </a>
+      <a routerLink="/admin/categories" routerLinkActive="active" class="menu-item">
+        <span class="icon">🗂️</span>
+        <span class="text">Categories</span>
       </a>
     </nav>
     <div class="sidebar-user">
@@ -29,7 +37,6 @@
         <h1>Order Management</h1>
         <p>Manage and track all customer orders</p>
       </div>
-
       <div class="header-actions">
         <div class="date-display">
           📅 {{ today | date:'mediumDate' }}
@@ -96,7 +103,7 @@
                     <span class="cust-name">{{ order.customerName }}</span>
                   </div>
                 </td>
-                <td>{{ order.items?.length || 0 }} Items</td>
+                <td>{{ order.items.length || 0 }} Items</td>
                 <td><app-status-badge [orderStatus]="order.status" type="order" /></td>
                 <td><span class="price">{{ order.total | currency:'EGP ' }}</span></td>
                 <td>
@@ -133,14 +140,6 @@
               </select>
               <app-status-badge [orderStatus]="selectedOrder.status" type="order" />
             </div>
-            <div class="status-list">
-              @for (statusItem of statusOptions; track statusItem.value) {
-                <div class="status-row">
-                  <span class="status-label">{{ statusItem.label }}</span>
-                  <span class="status-value">{{ statusItem.value }}</span>
-                </div>
-              }
-            </div>
           </div>
 
           <!-- Customer Information -->
@@ -160,7 +159,7 @@
 
           <!-- Order Items -->
           <div class="drawer-section">
-            <h4>Order Items ({{ selectedOrder.items?.length || 0 }})</h4>
+            <h4>Order Items ({{ selectedOrder.items.length || 0 }})</h4>
             <div class="items-list">
               @for (item of selectedOrder.items; track item.id) {
                 <div class="item-card">
@@ -207,7 +206,7 @@
           </div>
 
           <!-- Tracking Events -->
-          @if (selectedOrder.trackingEvents?.length) {
+          @if (selectedOrder.trackingEvents.length) {
             <div class="drawer-section">
               <h4>Order History</h4>
               <div class="tracking-timeline">
@@ -230,17 +229,18 @@
             </div>
           }
 
-          <!-- Shipping & Billing Addresses -->
+          <!-- Shipping Address -->
           <div class="drawer-section">
             <h4>Shipping Address</h4>
             <div class="address-card">
-              <p><strong>{{ selectedOrder.shippingAddress?.fullName || 'N/A' }}</strong></p>
-              <p>{{ selectedOrder.shippingAddress?.street || 'N/A' }}</p>
-              <p>{{ selectedOrder.shippingAddress?.city || '' }}, {{ selectedOrder.shippingAddress?.state || '' }} {{ selectedOrder.shippingAddress?.postalCode || '' }}</p>
-              <p>{{ selectedOrder.shippingAddress?.country || '' }}</p>
-              <p>📞 {{ selectedOrder.shippingAddress?.phone || 'N/A' }}</p>
+              <p><strong>{{ selectedOrder.shippingAddress.fullName || 'N/A' }}</strong></p>
+              <p>{{ selectedOrder.shippingAddress.street || 'N/A' }}</p>
+              <p>{{ selectedOrder.shippingAddress.city || '' }}, {{ selectedOrder.shippingAddress.state || '' }} {{ selectedOrder.shippingAddress.postalCode || '' }}</p>
+              <p>{{ selectedOrder.shippingAddress.country || '' }}</p>
+              <p>📞 {{ selectedOrder.shippingAddress.phone || 'N/A' }}</p>
             </div>
           </div>
+
         </div>
       </div>
     }

@@ -10,7 +10,8 @@
       "rating": {
         "rate": 3.9,
         "count": 120
-      }
+      },
+      "stock": 22
     },
     {
       "id": "2",
@@ -22,7 +23,8 @@
       "rating": {
         "rate": 4.1,
         "count": 259
-      }
+      },
+      "stock": 10
     },
     {
       "id": "3",
@@ -34,7 +36,8 @@
       "rating": {
         "rate": 4.7,
         "count": 500
-      }
+      },
+      "stock": 39
     },
     {
       "id": "4",
@@ -46,7 +49,8 @@
       "rating": {
         "rate": 2.1,
         "count": 430
-      }
+      },
+      "stock": 39
     },
     {
       "id": "5",
@@ -58,7 +62,8 @@
       "rating": {
         "rate": 4.6,
         "count": 400
-      }
+      },
+      "stock": 54
     },
     {
       "id": "6",
@@ -70,7 +75,8 @@
       "rating": {
         "rate": 3.9,
         "count": 70
-      }
+      },
+      "stock": 8
     },
     {
       "id": "7",
@@ -82,7 +88,8 @@
       "rating": {
         "rate": 3,
         "count": 400
-      }
+      },
+      "stock": 21
     },
     {
       "id": "8",
@@ -94,7 +101,8 @@
       "rating": {
         "rate": 1.9,
         "count": 100
-      }
+      },
+      "stock": 37
     },
     {
       "id": "9",
@@ -106,7 +114,8 @@
       "rating": {
         "rate": 3.3,
         "count": 203
-      }
+      },
+      "stock": 20
     },
     {
       "id": "10",
@@ -118,7 +127,8 @@
       "rating": {
         "rate": 2.9,
         "count": 470
-      }
+      },
+      "stock": 43
     },
     {
       "id": "11",
@@ -130,7 +140,8 @@
       "rating": {
         "rate": 4.8,
         "count": 319
-      }
+      },
+      "stock": 52
     },
     {
       "id": "12",
@@ -142,7 +153,8 @@
       "rating": {
         "rate": 4.8,
         "count": 400
-      }
+      },
+      "stock": 32
     },
     {
       "id": "13",
@@ -154,7 +166,8 @@
       "rating": {
         "rate": 2.9,
         "count": 250
-      }
+      },
+      "stock": 49
     },
     {
       "id": "14",
@@ -166,7 +179,8 @@
       "rating": {
         "rate": 2.2,
         "count": 140
-      }
+      },
+      "stock": 30
     },
     {
       "id": "15",
@@ -178,7 +192,8 @@
       "rating": {
         "rate": 2.6,
         "count": 235
-      }
+      },
+      "stock": 37
     },
     {
       "id": "16",
@@ -190,7 +205,8 @@
       "rating": {
         "rate": 2.9,
         "count": 340
-      }
+      },
+      "stock": 39
     },
     {
       "id": "17",
@@ -202,7 +218,8 @@
       "rating": {
         "rate": 3.8,
         "count": 679
-      }
+      },
+      "stock": 28
     },
     {
       "id": "18",
@@ -214,7 +231,8 @@
       "rating": {
         "rate": 4.7,
         "count": 130
-      }
+      },
+      "stock": 34
     },
     {
       "id": "19",
@@ -226,7 +244,8 @@
       "rating": {
         "rate": 4.5,
         "count": 146
-      }
+      },
+      "stock": 19
     },
     {
       "id": "20",
@@ -238,7 +257,62 @@
       "rating": {
         "rate": 3.6,
         "count": 145
-      }
+      },
+      "stock": 28
+    },
+    {
+      "title": "head phone",
+      "price": 200,
+      "stock": 10,
+      "description": "new product",
+      "category": "electronics new",
+      "image": "https://th.bing.com/th/id/OIP.nE_uoT22bff3E1QQdXdeTgHaHa?w=197&h=197&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+      "id": "ia9CrPn"
+    },
+    {
+      "title": "iphone17",
+      "price": 100000,
+      "stock": 10,
+      "description": "iphone 17 gray color",
+      "category": "electronics new",
+      "image": "https://tse4.mm.bing.net/th/id/OIP.nLj68ft9DLYvVP57Ra_kYgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "rating": {
+        "rate": 0,
+        "count": 0
+      },
+      "id": "8_hA91O"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Electronics",
+      "slug": "electronics",
+      "productCount": 6
+    },
+    {
+      "id": "2",
+      "name": "Jewelery",
+      "slug": "jewelery",
+      "productCount": 4
+    },
+    {
+      "id": "3",
+      "name": "Men's Clothing",
+      "slug": "men's clothing",
+      "productCount": 4
+    },
+    {
+      "id": "4",
+      "name": "Women's Clothing",
+      "slug": "women's clothing",
+      "productCount": 6
+    },
+    {
+      "name": "Electronics",
+      "slug": "electronics new",
+      "id": "dBx8oqB",
+      "productCount": 2
     }
   ],
   "orders": [
