@@ -33,6 +33,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/register/register').then((m) => m.RegisterComponent),
   },
+  {
+    path: 'orders',
+    loadComponent: () =>
+      import('./features/orders/components/order-tracking/order-tracking').then(
+        (m) => m.OrderTrackingComponent,
+      ),
+  },
   { path: 'auth/login', redirectTo: 'login', pathMatch: 'full' },
   { path: 'auth/register', redirectTo: 'register', pathMatch: 'full' },
 

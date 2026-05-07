@@ -1,0 +1,23 @@
+@if (totalPages > 1) {
+  <div class="pagination">
+    <span class="info">
+      Showing {{ startItem }}–{{ endItem }} of {{ total }}
+    </span>
+    <div class="controls">
+      <button class="btn" [disabled]="currentPage === 1" (click)="go(1)">««</button>
+      <button class="btn" [disabled]="currentPage === 1" (click)="go(currentPage - 1)">‹</button>
+      @for (page of visiblePages; track page) {
+        <button
+          class="btn"
+          [class.btn--active]="page === currentPage"
+          [disabled]="page === -1"
+          (click)="go(page)"
+        >
+          {{ page === -1 ? '...' : page }}
+        </button>
+      }
+      <button class="btn" [disabled]="currentPage === totalPages" (click)="go(currentPage + 1)">›</button>
+      <button class="btn" [disabled]="currentPage === totalPages" (click)="go(totalPages)">»»</button>
+    </div>
+  </div>
+}

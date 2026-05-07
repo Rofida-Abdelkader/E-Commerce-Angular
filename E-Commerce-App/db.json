@@ -242,11 +242,23 @@
     }
   ],
   "categories": [
-  { "id": 1, "name": "Electronics" },
-  { "id": 2, "name": "Jewelery" },
-  { "id": 3, "name": "Men's Clothing" },
-  { "id": 4, "name": "Women's Clothing" }
-],
+    {
+      "id": "1",
+      "name": "Electronics"
+    },
+    {
+      "id": "2",
+      "name": "Jewelery"
+    },
+    {
+      "id": "3",
+      "name": "Men's Clothing"
+    },
+    {
+      "id": "4",
+      "name": "Women's Clothing"
+    }
+  ],
   "orders": [
     {
       "id": "1",
@@ -269,6 +281,206 @@
       ],
       "total": 500,
       "status": "pending"
+    },
+    {
+      "items": [
+        {
+          "productId": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "quantity": 1,
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+        }
+      ],
+      "totalPrice": 109.95,
+      "customer": {
+        "fullName": "alyaa",
+        "phone": "01113624025",
+        "address": "minya",
+        "city": "minya",
+        "notes": "aaaaaaaaa"
+      },
+      "paymentMethod": "cash",
+      "status": "pending",
+      "id": "XffqIHGXd-4"
+    },
+    {
+      "items": [
+        {
+          "productId": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "quantity": 1,
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+        }
+      ],
+      "totalPrice": 109.95,
+      "customer": {
+        "fullName": "alyaa",
+        "phone": "01140837267",
+        "address": "egypt",
+        "city": "egypt",
+        "notes": "egypte"
+      },
+      "paymentMethod": "cash",
+      "status": "pending",
+      "orderNumber": "ORD-1778054424282",
+      "id": "rysjMyySoJ4"
+    },
+    {
+      "items": [
+        {
+          "productId": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "quantity": 1,
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+        }
+      ],
+      "totalPrice": 109.95,
+      "customer": {
+        "fullName": "alyaa",
+        "phone": "01113624025",
+        "address": "Minya",
+        "city": "AboQurqas",
+        "notes": "aaaaaaaaaaaaa"
+      },
+      "paymentMethod": "cash",
+      "status": "pending",
+      "orderNumber": "ORD-1778139468238",
+      "id": "DHxq8rt-4K0"
+    },
+    {
+      "items": [
+        {
+          "productId": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "quantity": 1,
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+        }
+      ],
+      "totalPrice": 109.95,
+      "customer": {
+        "fullName": "alyaa",
+        "phone": "01113624025",
+        "address": "minya",
+        "city": "minya",
+        "notes": "aaaaaaaaaaa"
+      },
+      "paymentMethod": "cash",
+      "status": "pending",
+      "orderNumber": "ORD-1778140315277",
+      "id": "kF6NQggf0uM"
+    },
+    {
+      "items": [
+        {
+          "productId": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "quantity": 1,
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+        }
+      ],
+      "totalPrice": 109.95,
+      "customer": {
+        "fullName": "alyaa khalaf",
+        "phone": "01113624025",
+        "address": "minya",
+        "city": "minya",
+        "notes": "aaaaaaaaaaaaaaaaa"
+      },
+      "paymentMethod": "cash_on_delivery",
+      "status": "pending",
+      "orderNumber": "ORD-1778140589528",
+      "shippingAddress": {
+        "fullName": "alyaa khalaf",
+        "phone": "01113624025",
+        "street": "minya",
+        "city": "minya",
+        "state": "",
+        "country": "Egypt",
+        "postalCode": ""
+      },
+      "subtotal": 109.95,
+      "total": 109.95,
+      "shippingFee": 0,
+      "tax": 0,
+      "discount": 0,
+      "trackingEvents": [],
+      "createdAt": "2026-05-07T07:56:29.528Z",
+      "id": "Ke14njNDB7s"
+    },
+    {
+      "items": [
+        {
+          "productId": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "quantity": 1,
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+        }
+      ],
+      "totalPrice": 109.95,
+      "customer": {
+        "fullName": "alyaa",
+        "phone": "03333624025",
+        "address": "minya",
+        "city": "minya",
+        "notes": "aaaaaa"
+      },
+      "paymentMethod": "cash_on_delivery",
+      "status": "pending",
+      "orderNumber": "ORD-1778141487776",
+      "shippingAddress": {
+        "fullName": "alyaa",
+        "phone": "03333624025",
+        "street": "minya",
+        "city": "minya",
+        "state": "",
+        "country": "Egypt",
+        "postalCode": ""
+      },
+      "subtotal": 109.95,
+      "total": 109.95,
+      "shippingFee": 0,
+      "tax": 0,
+      "discount": 0,
+      "trackingEvents": [],
+      "createdAt": "2026-05-07T08:11:27.776Z",
+      "id": "bnM1DpHTRZ0"
+    },
+    {
+      "items": [],
+      "totalPrice": 0,
+      "customer": {
+        "fullName": "esraa",
+        "phone": "01113624025",
+        "address": "minya",
+        "city": "aboqurqas",
+        "notes": "aaaaaaaaaa"
+      },
+      "paymentMethod": "cash_on_delivery",
+      "status": "pending",
+      "orderNumber": "ORD-1778141521086",
+      "shippingAddress": {
+        "fullName": "esraa",
+        "phone": "01113624025",
+        "street": "minya",
+        "city": "aboqurqas",
+        "state": "",
+        "country": "Egypt",
+        "postalCode": ""
+      },
+      "subtotal": 0,
+      "total": 0,
+      "shippingFee": 0,
+      "tax": 0,
+      "discount": 0,
+      "trackingEvents": [],
+      "createdAt": "2026-05-07T08:12:01.086Z",
+      "id": "VSbR4p1ZSFk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

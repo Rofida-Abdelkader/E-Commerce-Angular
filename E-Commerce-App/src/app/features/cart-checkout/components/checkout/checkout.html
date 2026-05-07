@@ -7,30 +7,36 @@
     @for (item of cartService.items(); track item.product.id) {
       <div class="summary-item">
         <span>{{ item.product.title }} x{{ item.quantity }}</span>
-        <span>${{ item.product.price * item.quantity }}</span>
+        <span>${{ (item.product.price * item.quantity).toFixed(2) }}</span>
       </div>
     }
     <div class="summary-total">
       <span>Total</span>
-      <span>${{ cartService.totalPrice() }}</span>
+      <span>${{ cartService.totalPrice().toFixed(2) }}</span>
     </div>
-    <p class="cash-label">💵 Cash on Delivery</p>
   </div>
 
   <!-- Checkout Form -->
   <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    
     <div class="form-group">
       <label>Full Name</label>
       <input formControlName="fullName" type="text" placeholder="Enter your full name" />
-      @if (checkoutForm.get('fullName')?.invalid && checkoutForm.get('fullName')?.touched) {
-        <p class="error">Full name is required (min 3 characters)</p>
+      @if (checkoutForm.get('fullName')?.errors?.['required'] && checkoutForm.get('fullName')?.touched) {
+        <p class="error">Full name is required</p>
+      }
+      @if (checkoutForm.get('fullName')?.errors?.['minlength'] && checkoutForm.get('fullName')?.touched) {
+        <p class="error">Full name must be at least 3 characters</p>
       }
     </div>
 
     <div class="form-group">
       <label>Phone Number</label>
       <input formControlName="phone" type="tel" placeholder="01XXXXXXXXX" />
-      @if (checkoutForm.get('phone')?.invalid && checkoutForm.get('phone')?.touched) {
+      @if (checkoutForm.get('phone')?.errors?.['required'] && checkoutForm.get('phone')?.touched) {
+        <p class="error">Phone number is required</p>
+      }
+      @if (checkoutForm.get('phone')?.errors?.['pattern'] && checkoutForm.get('phone')?.touched) {
         <p class="error">Enter a valid 11-digit phone number</p>
       }
     </div>
@@ -56,8 +62,24 @@
       <textarea formControlName="notes" placeholder="Any special instructions?" rows="3"></textarea>
     </div>
 
+    <!-- Payment Method -->
+    <div class="form-group">
+      <label>Payment Method</label>
+      <div class="payment-options">
+        <label class="payment-option" [class.selected]="checkoutForm.get('paymentMethod')?.value === 'cash'">
+          <input type="radio" formControlName="paymentMethod" value="cash" />
+          💵 Cash on Delivery
+        </label>
+        <label class="payment-option" [class.selected]="checkoutForm.get('paymentMethod')?.value === 'credit_card'">
+          <input type="radio" formControlName="paymentMethod" value="credit_card" />
+          💳 Credit Card
+        </label>
+      </div>
+    </div>
+
     <button type="submit" [disabled]="isSubmitting" class="submit-btn">
       {{ isSubmitting ? 'Placing Order...' : 'Place Order' }}
     </button>
+
   </form>
 </div>

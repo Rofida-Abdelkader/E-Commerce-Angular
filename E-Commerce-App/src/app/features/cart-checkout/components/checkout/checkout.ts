@@ -22,7 +22,8 @@ export class CheckoutComponent {
     phone: ['', [Validators.required, Validators.pattern(/^[0-9]{11}$/)]],
     address: ['', Validators.required],
     city: ['', Validators.required],
-    notes: ['']
+    notes: [''],
+    paymentMethod: ['cash', Validators.required],
   });
 
   isSubmitting = false;
@@ -36,27 +37,46 @@ export class CheckoutComponent {
     this.isSubmitting = true;
 
     const order = {
-      items: this.cartService.items().map(item => ({
+      items: this.cartService.items().map((item) => ({
         productId: item.product.id,
         title: item.product.title,
         price: item.product.price,
         quantity: item.quantity,
-        image: item.product.image
+        image: item.product.image,
       })),
       totalPrice: this.cartService.totalPrice(),
-      customer: this.checkoutForm.value,
-      paymentMethod: 'cash' as const,
-      status: 'pending' as const
+      customer: {
+        fullName: this.checkoutForm.value.fullName,
+        phone: this.checkoutForm.value.phone,
+        address: this.checkoutForm.value.address,
+        city: this.checkoutForm.value.city,
+        notes: this.checkoutForm.value.notes,
+      },
+      paymentMethod: (this.checkoutForm.value.paymentMethod === 'cash' ? 'cash_on_delivery' : 'credit_card') as 'cash' | 'cash_on_delivery' | 'credit_card',
+      status: 'pending' as const,
     };
 
     this.checkoutService.placeOrder(order).subscribe({
-      next: () => {
+      next: (response) => {
         this.cartService.clearCart();
-        this.router.navigate(['/orders']);
+
+        // حفظ الـ order في localStorage
+        const savedOrders = JSON.parse(localStorage.getItem('user_orders') || '[]');
+        savedOrders.push({
+          orderNumber: response.orderNumber,
+          date: new Date().toISOString(),
+          total: response.totalPrice,
+          status: response.status,
+        });
+        localStorage.setItem('user_orders', JSON.stringify(savedOrders));
+
+        this.router.navigate(['/orders'], {
+          queryParams: { orderNumber: response.orderNumber },
+        });
       },
       error: () => {
         this.isSubmitting = false;
-      }
+      },
     });
   }
 }

@@ -15,12 +15,13 @@ export interface Order {
   items: any[];
   totalPrice: number;
   customer: CheckoutData;
-  paymentMethod: 'cash';
+  paymentMethod: 'cash' | 'cash_on_delivery' | 'credit_card';
   status: 'pending';
+  orderNumber?: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CheckoutService {
   private apiUrl = `${environment.apiUrl}/orders`;
@@ -28,6 +29,27 @@ export class CheckoutService {
   constructor(private http: HttpClient) {}
 
   placeOrder(order: Order): Observable<any> {
-    return this.http.post(this.apiUrl, order);
+    const orderWithNumber = {
+      ...order,
+      orderNumber: `ORD-${Date.now()}`,
+      shippingAddress: {
+        fullName: order.customer.fullName,
+        phone: order.customer.phone,
+        street: order.customer.address,
+        city: order.customer.city,
+        state: '',
+        country: 'Egypt',
+        postalCode: '',
+      },
+      subtotal: order.totalPrice,
+      total: order.totalPrice,
+      shippingFee: 0,
+      tax: 0,
+      discount: 0,
+      paymentMethod: 'cash_on_delivery',
+      trackingEvents: [],
+      createdAt: new Date().toISOString(),
+    };
+    return this.http.post(this.apiUrl, orderWithNumber);
   }
 }
