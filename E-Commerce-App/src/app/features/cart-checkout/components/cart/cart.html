@@ -1,0 +1,41 @@
+<div class="cart-container">
+  <h1>Shopping Cart</h1>
+
+  @if (cartService.items().length === 0) {
+    <div class="empty-cart">
+      <p>Your cart is empty!</p>
+      <button (click)="goToCheckout()">Continue Shopping</button>
+    </div>
+  } @else {
+    <div class="cart-items">
+      @for (item of cartService.items(); track item.product.id) {
+        <div class="cart-item">
+          <div class="item-info">
+            <img [src]="item.product.image" [alt]="item.product.title" />
+            <div>
+              <h2>{{ item.product.title }}</h2>
+              <p class="category">{{ item.product.category }}</p>
+              <p class="price">${{ item.product.price }}</p>
+            </div>
+          </div>
+
+          <div class="quantity-controls">
+            <button (click)="decreaseQuantity(item.product.id, item.quantity)">-</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="increaseQuantity(item.product.id, item.quantity)">+</button>
+          </div>
+
+          <button class="remove-btn" (click)="removeItem(item.product.id)">Remove</button>
+        </div>
+      }
+
+      <div class="cart-footer">
+        <div>
+          <p>Total Items: {{ cartService.totalQuantity() }}</p>
+          <p class="total-price">Total: ${{ cartService.totalPrice() }}</p>
+        </div>
+        <button class="checkout-btn" (click)="goToCheckout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  }
+</div>

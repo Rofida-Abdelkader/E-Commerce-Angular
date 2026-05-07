@@ -1,0 +1,264 @@
+<div class="admin-container">
+  <!-- السايد بار الأيسر -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="icon">⚡</span>
+      <span class="text">OrderCraft</span>
+    </div>
+    <nav class="sidebar-menu">
+      <a routerLink="/admin" routerLinkActive="active" class="menu-item">
+        <span class="icon">📦</span>
+        <span class="text">Orders</span>
+        <span class="badge">{{ stats?.totalOrders || 0 }}</span>
+      </a>
+      <a routerLink="/admin/products" routerLinkActive="active" class="menu-item">
+        <span class="icon">🛍️</span>
+        <span class="text">Products</span>
+      </a>
+      <a routerLink="/admin/categories" routerLinkActive="active" class="menu-item">
+        <span class="icon">🗂️</span>
+        <span class="text">Categories</span>
+      </a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar">A</div>
+      <div class="user-info">
+        <span class="name">Admin</span>
+        <span class="role">Super Admin</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- المحتوى الأساسي -->
+  <main class="main-content">
+      <router-outlet />
+    <!-- الهيدر العلوي -->
+    <header class="main-header">
+      <div class="header-title">
+        <h1>Order Management</h1>
+        <p>Manage and track all customer orders</p>
+      </div>
+      <div class="header-actions">
+        <div class="date-display">📅 {{ today | date: 'mediumDate' }}</div>
+      </div>
+    </header>
+
+    <!-- كروت الإحصائيات -->
+    @if (stats) {
+      <div class="stats-grid">
+        <div class="stat-card indigo">
+          <span class="stat-label">Total Orders</span>
+          <span class="stat-value">{{ stats.totalOrders }}</span>
+        </div>
+        <div class="stat-card amber">
+          <span class="stat-label">Pending</span>
+          <span class="stat-value">{{ stats.pendingOrders }}</span>
+        </div>
+        <div class="stat-card emerald">
+          <span class="stat-label">Delivered</span>
+          <span class="stat-value">{{ stats.deliveredOrders }}</span>
+        </div>
+        <div class="stat-card cyan">
+          <span class="stat-label">Total Revenue</span>
+          <span class="stat-value">{{ stats.totalRevenue | currency: 'EGP ' }}</span>
+        </div>
+      </div>
+    }
+
+    <!-- جدول البيانات -->
+    <div class="content-card">
+      <div class="table-toolbar">
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Search orders..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearch()"
+          />
+        </div>
+        <div class="filter-box">
+          <select [(ngModel)]="statusFilter" (change)="onFilterChange()">
+            <option value="">All Statuses</option>
+            @for (s of statusOptions; track s.value) {
+              <option [value]="s.value">{{ s.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Status</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of orders; track order.id) {
+              <tr>
+                <td>
+                  <strong>{{ order.orderNumber }}</strong>
+                </td>
+                <td>
+                  <div class="cust-info">
+                    <span class="cust-name">{{ order.customerName }}</span>
+                  </div>
+                </td>
+                <td>{{ order.items.length || 0 }} Items</td>
+                <td><app-status-badge [orderStatus]="order.status" type="order" /></td>
+                <td>
+                  <span class="price">{{ order.total | currency: 'EGP ' }}</span>
+                </td>
+                <td>
+                  <div class="row-actions">
+                    <button class="btn-icon" (click)="viewOrder(order)">👁</button>
+                    <button class="btn-icon" (click)="viewOrder(order)">✏️</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Order Details Drawer -->
+    @if (selectedOrder) {
+      <div class="drawer-overlay" (click)="closeDrawer()"></div>
+      <div class="drawer">
+        <div class="drawer-header">
+          <h3>Order Details - {{ selectedOrder.orderNumber }}</h3>
+          <button class="drawer-close" (click)="closeDrawer()">✕</button>
+        </div>
+
+        <div class="drawer-content">
+          <!-- Order Status Section -->
+          <div class="drawer-section">
+            <h4>Order Status</h4>
+            <div class="status-selector">
+              <select
+                [(ngModel)]="selectedOrder.status"
+                (ngModelChange)="changeStatus(selectedOrder, $event)"
+              >
+                @for (status of statusOptions; track status.value) {
+                  <option [value]="status.value">{{ status.label }}</option>
+                }
+              </select>
+              <app-status-badge [orderStatus]="selectedOrder.status" type="order" />
+            </div>
+          </div>
+
+          <!-- Customer Information -->
+          <div class="drawer-section">
+            <h4>Customer Information</h4>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Name:</label>
+                <span>{{ selectedOrder.customerName }}</span>
+              </div>
+              <div class="info-item">
+                <label>Email:</label>
+                <span>{{ selectedOrder.customerEmail || 'Not provided' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Items -->
+          <div class="drawer-section">
+            <h4>Order Items ({{ selectedOrder.items.length || 0 }})</h4>
+            <div class="items-list">
+              @for (item of selectedOrder.items; track item.id) {
+                <div class="item-card">
+                  <div class="item-image">
+                    <img [src]="item.productImage" [alt]="item.productName" />
+                  </div>
+                  <div class="item-details">
+                    <h5>{{ item.productName }}</h5>
+                    <p>SKU: {{ item.sku }}</p>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Unit Price: {{ item.unitPrice | currency: 'EGP ' }}</p>
+                    <p>Total: {{ item.totalPrice | currency: 'EGP ' }}</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Order Summary -->
+          <div class="drawer-section">
+            <h4>Order Summary</h4>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <label>Subtotal:</label>
+                <span>{{ selectedOrder.subtotal | currency: 'EGP ' }}</span>
+              </div>
+              <div class="summary-item">
+                <label>Shipping:</label>
+                <span>{{ selectedOrder.shippingFee | currency: 'EGP ' }}</span>
+              </div>
+              <div class="summary-item">
+                <label>Tax:</label>
+                <span>{{ selectedOrder.tax | currency: 'EGP ' }}</span>
+              </div>
+              <div class="summary-item">
+                <label>Discount:</label>
+                <span>{{ selectedOrder.discount | currency: 'EGP ' }}</span>
+              </div>
+              <div class="summary-item total">
+                <label>Total:</label>
+                <span>{{ selectedOrder.total | currency: 'EGP ' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tracking Events -->
+          @if (selectedOrder.trackingEvents.length) {
+            <div class="drawer-section">
+              <h4>Order History</h4>
+              <div class="tracking-timeline">
+                @for (event of selectedOrder.trackingEvents; track event.id) {
+                  <div class="timeline-item">
+                    <div class="timeline-marker">
+                      <app-status-badge [orderStatus]="event.status" type="order" />
+                    </div>
+                    <div class="timeline-content">
+                      <h5>{{ ORDER_STATUS_LABELS[event.status] }}</h5>
+                      <p>{{ event.description }}</p>
+                      @if (event.location) {
+                        <p class="location">📍 {{ event.location }}</p>
+                      }
+                      <small>{{ event.timestamp | date: 'medium' }}</small>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Shipping Address -->
+          <div class="drawer-section">
+            <h4>Shipping Address</h4>
+            <div class="address-card">
+              <p>
+                <strong>{{ selectedOrder.shippingAddress.fullName || 'N/A' }}</strong>
+              </p>
+              <p>{{ selectedOrder.shippingAddress.street || 'N/A' }}</p>
+              <p>
+                {{ selectedOrder.shippingAddress.city || '' }},
+                {{ selectedOrder.shippingAddress.state || '' }}
+                {{ selectedOrder.shippingAddress.postalCode || '' }}
+              </p>
+              <p>{{ selectedOrder.shippingAddress.country || '' }}</p>
+              <p>📞 {{ selectedOrder.shippingAddress.phone || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+</div>

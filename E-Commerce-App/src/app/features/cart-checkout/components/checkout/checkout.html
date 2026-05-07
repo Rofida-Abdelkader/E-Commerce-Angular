@@ -1,0 +1,136 @@
+<div class="checkout-container">
+  <h1>Checkout</h1>
+
+  <!-- Order Summary -->
+  <div class="order-summary">
+    <h2>Order Summary</h2>
+    @for (item of cartService.items(); track item.product.id) {
+      <div class="summary-item">
+        <span>{{ item.product.title }} x{{ item.quantity }}</span>
+        <span>${{ (item.product.price * item.quantity).toFixed(2) }}</span>
+      </div>
+    }
+    <div class="summary-total">
+      <span>Total</span>
+      <span>${{ cartService.totalPrice().toFixed(2) }}</span>
+    </div>
+  </div>
+
+  <!-- Checkout Form -->
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input formControlName="fullName" type="text" placeholder="Enter your full name" />
+      @if (
+        checkoutForm.get('fullName')?.errors?.['required'] && checkoutForm.get('fullName')?.touched
+      ) {
+        <p class="error">Full name is required</p>
+      }
+      @if (
+        checkoutForm.get('fullName')?.errors?.['minlength'] && checkoutForm.get('fullName')?.touched
+      ) {
+        <p class="error">Full name must be at least 3 characters</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input formControlName="phone" type="tel" placeholder="01XXXXXXXXX" />
+      @if (checkoutForm.get('phone')?.errors?.['required'] && checkoutForm.get('phone')?.touched) {
+        <p class="error">Phone number is required</p>
+      }
+      @if (checkoutForm.get('phone')?.errors?.['pattern'] && checkoutForm.get('phone')?.touched) {
+        <p class="error">Enter a valid Egyptian phone number (010/011/012/015 + 8 digits)</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Address</label>
+      <input formControlName="address" type="text" placeholder="Enter your address" />
+      @if (checkoutForm.get('address')?.invalid && checkoutForm.get('address')?.touched) {
+        <p class="error">Address is required</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>City</label>
+      <input formControlName="city" type="text" placeholder="Enter your city" />
+      @if (checkoutForm.get('city')?.invalid && checkoutForm.get('city')?.touched) {
+        <p class="error">City is required</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Notes (Optional)</label>
+      <textarea formControlName="notes" placeholder="Any special instructions?" rows="3"></textarea>
+    </div>
+
+    <!-- Payment Method -->
+    <div class="form-group">
+      <label>Payment Method</label>
+      <div class="payment-options">
+        <label
+          class="payment-option"
+          [class.selected]="checkoutForm.get('paymentMethod')?.value === 'cash'"
+        >
+          <input type="radio" formControlName="paymentMethod" value="cash" />
+          💵 Cash on Delivery
+        </label>
+        <label
+          class="payment-option"
+          [class.selected]="checkoutForm.get('paymentMethod')?.value === 'credit_card'"
+        >
+          <input type="radio" formControlName="paymentMethod" value="credit_card" />
+          💳 Credit Card
+        </label>
+      </div>
+    </div>
+
+    <!-- Credit Card Details -->
+    @if (checkoutForm.get('paymentMethod')?.value === 'credit_card') {
+      <div class="credit-card-section">
+        <div class="form-group">
+          <label>Card Number</label>
+          <input
+            formControlName="cardNumber"
+            type="text"
+            placeholder="1234 5678 9012 3456"
+            maxlength="19"
+          />
+          @if (checkoutForm.get('cardNumber')?.invalid && checkoutForm.get('cardNumber')?.touched) {
+            <p class="error">Enter a valid 16-digit card number</p>
+          }
+        </div>
+        <div class="card-row">
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input formControlName="expiryDate" type="text" placeholder="MM/YY" maxlength="5" />
+            @if (
+              checkoutForm.get('expiryDate')?.invalid && checkoutForm.get('expiryDate')?.touched
+            ) {
+              <p class="error">Enter valid expiry date</p>
+            }
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input formControlName="cvv" type="password" placeholder="123" maxlength="3" />
+            @if (checkoutForm.get('cvv')?.invalid && checkoutForm.get('cvv')?.touched) {
+              <p class="error">Enter valid CVV</p>
+            }
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Cardholder Name</label>
+          <input formControlName="cardHolder" type="text" placeholder="Name on card" />
+          @if (checkoutForm.get('cardHolder')?.invalid && checkoutForm.get('cardHolder')?.touched) {
+            <p class="error">Cardholder name is required</p>
+          }
+        </div>
+      </div>
+    }
+
+    <button type="submit" [disabled]="isSubmitting" class="submit-btn">
+      {{ isSubmitting ? 'Placing Order...' : 'Place Order' }}
+    </button>
+  </form>
+</div>

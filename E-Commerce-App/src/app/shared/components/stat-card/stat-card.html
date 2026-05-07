@@ -1,0 +1,14 @@
+<div class="card" [style.border-left-color]="color">
+  <div class="card__header">
+    <div class="card__icon" [style.background-color]="color + '18'" [style.color]="color">
+      {{ icon }}
+    </div>
+    @if (change !== undefined) {
+      <span class="card__change" [class.card__change--up]="change >= 0" [class.card__change--down]="change < 0">
+        {{ change >= 0 ? '↑' : '↓' }} {{ change | number:'1.1-1' }}%
+      </span>
+    }
+  </div>
+  <div class="card__value">{{ formatted }}</div>
+  <div class="card__label">{{ label }}</div>
+</div>

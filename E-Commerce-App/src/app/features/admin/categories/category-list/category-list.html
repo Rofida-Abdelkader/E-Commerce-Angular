@@ -1,0 +1,56 @@
+<div class="admin-container">
+  <div class="page-header">
+    <div>
+      <h1>Category Management</h1>
+      <p>Manage your store categories</p>
+    </div>
+    <a routerLink="/admin/categories/new" class="btn-primary">+ Add Category</a>
+  </div>
+
+  <div class="content-card">
+    @if (loading) {
+      <div class="loading">Loading...</div>
+    } @else {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Slug</th>
+            <th>Products</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cat of categories; track cat.id; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td><strong>{{ cat.name }}</strong></td>
+              <td><span class="slug-badge">{{ cat.slug }}</span></td>
+              <td>{{ cat.productCount || 0 }} products</td>
+              <td>
+                <div class="row-actions">
+                  <a [routerLink]="['/admin/categories/edit', cat.id]" class="btn-icon">✏️</a>
+                  <button class="btn-icon btn-danger" (click)="confirmDelete(cat)">🗑️</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (showDeleteModal) {
+    <div class="modal-overlay">
+      <div class="modal">
+        <h3>Delete Category</h3>
+        <p>Are you sure you want to delete <strong>{{ categoryToDelete?.name }}</strong>?</p>
+        <div class="modal-actions">
+          <button class="btn-secondary" (click)="cancelDelete()">Cancel</button>
+          <button class="btn-danger" (click)="deleteCategory()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

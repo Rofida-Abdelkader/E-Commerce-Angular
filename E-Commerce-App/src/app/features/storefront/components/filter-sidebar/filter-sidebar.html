@@ -1,0 +1,17 @@
+<div class="filter-wrap d-flex flex-wrap gap-2 align-items-center">
+
+  <button
+    class="btn btn-filter btn-filter-all rounded-pill px-3 py-1"
+    (click)="clear()">
+    <i class="bi bi-grid-3x3-gap-fill me-1"></i> All
+  </button>
+
+  <button
+    *ngFor="let cat of categories"
+    class="btn btn-filter rounded-pill px-3 py-1"
+    [class.active]="selectedCategory === cat"
+    (click)="selectCategory(cat)">
+    {{ cat }}
+  </button>
+
+</div>

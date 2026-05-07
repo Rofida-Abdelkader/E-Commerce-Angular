@@ -1,0 +1,93 @@
+/* ===== Page Layout ===== */
+.storefront-container {
+  background: #fdf5ec;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ===== Navbar / Top Bar ===== */
+.store-topbar {
+  background: #fff8f0;
+  border-bottom: 1px solid #f0ddc8;
+  box-shadow: 0 2px 16px rgba(100, 60, 30, 0.06);
+  padding: 14px 0;
+  z-index: 100;
+}
+
+.store-logo {
+  color: #3d2b1f;
+  letter-spacing: -0.02em;
+  font-size: 1.2rem !important;
+  text-decoration: none;
+
+  &:hover { color: #c97c4a; }
+}
+
+/* ===== Cart Button ===== */
+.btn-cart {
+  background: #3d2b1f;
+  color: #fff8f2;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: #c97c4a;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(201, 124, 74, 0.32);
+    transform: translateY(-1px);
+  }
+}
+
+.cart-badge {
+  background: #e05c2a !important;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 7px;
+}
+
+/* ===== Section Title ===== */
+.section-heading {
+  font-size: 1.6rem;
+  color: #3d2b1f;
+  letter-spacing: -0.02em;
+}
+
+.section-sub {
+  font-size: 0.88rem;
+  color: #b08c6e !important;
+}
+
+/* ===== Staggered Fade In ===== */
+.product-col {
+  animation: fadeUp 0.5s ease both;
+}
+
+@for $i from 1 through 12 {
+  .product-col:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.06}s;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== No Results ===== */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: #b08c6e;
+
+  i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 12px;
+    color: #e0c8a8;
+  }
+}
