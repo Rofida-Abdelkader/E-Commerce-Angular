@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
 import { ProductService, Product } from '../../services/product.service';
 import { ProductCardComponent } from '../product-card/product-card';
 import { SearchBarComponent } from '../search-bar/search-bar';
 import { FilterSidebarComponent } from '../filter-sidebar/filter-sidebar';
 import { CartSidebarComponent } from '../cart-sidebar/cart-sidebar';
 import { CartService } from '../../../cart-checkout/services/cart';
+import { AuthService } from '../../../../core/services/auth.service';
 
 interface CartItem {
   product: Product;
@@ -18,6 +20,7 @@ interface CartItem {
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     ProductCardComponent,
     SearchBarComponent,
     FilterSidebarComponent,
@@ -29,12 +32,15 @@ interface CartItem {
 export class ProductList {
   products$: Observable<Product[]>;
   private cartService = inject(CartService);
-  
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   get cart() {
     return this.cartService.items();
   }
-  
+
   showCart = false;
+  showUserMenu = false;
   searchTerm = '';
   category = '';
 
@@ -44,6 +50,30 @@ export class ProductList {
 
   toggleCart() {
     this.showCart = !this.showCart;
+  }
+
+  toggleUserMenu() {
+    this.showUserMenu = !this.showUserMenu;
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  userName(): string {
+    const user = this.authService.getRegisteredUser();
+    return user?.username || 'User';
+  }
+
+  goToOrders() {
+    this.showUserMenu = false;
+    this.router.navigate(['/orders']);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.showUserMenu = false;
+    this.router.navigate(['/login']);
   }
 
   onAddToCart(product: Product) {

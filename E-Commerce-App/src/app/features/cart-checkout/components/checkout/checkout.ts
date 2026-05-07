@@ -19,12 +19,44 @@ export class CheckoutComponent {
 
   checkoutForm: FormGroup = this.fb.group({
     fullName: ['', [Validators.required, Validators.minLength(3)]],
-    phone: ['', [Validators.required, Validators.pattern(/^[0-9]{11}$/)]],
+    phone: ['', [Validators.required, Validators.pattern(/^(010|011|012|015)[0-9]{8}$/)]],
     address: ['', Validators.required],
     city: ['', Validators.required],
     notes: [''],
     paymentMethod: ['cash', Validators.required],
+    cardNumber: [''],
+    expiryDate: [''],
+    cvv: [''],
+    cardHolder: [''],
   });
+
+  constructor() {
+    this.checkoutForm.get('paymentMethod')?.valueChanges.subscribe((method) => {
+      const cardFields = ['cardNumber', 'expiryDate', 'cvv', 'cardHolder'];
+
+      if (method === 'credit_card') {
+        this.checkoutForm
+          .get('cardNumber')
+          ?.setValidators([Validators.required, Validators.pattern(/^\d{16}$/)]);
+        this.checkoutForm
+          .get('expiryDate')
+          ?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]);
+        this.checkoutForm
+          .get('cvv')
+          ?.setValidators([Validators.required, Validators.pattern(/^\d{3}$/)]);
+        this.checkoutForm.get('cardHolder')?.setValidators([Validators.required]);
+      } else {
+        cardFields.forEach((field) => {
+          this.checkoutForm.get(field)?.clearValidators();
+          this.checkoutForm.get(field)?.reset();
+        });
+      }
+
+      cardFields.forEach((field) => {
+        this.checkoutForm.get(field)?.updateValueAndValidity();
+      });
+    });
+  }
 
   isSubmitting = false;
 
@@ -52,8 +84,11 @@ export class CheckoutComponent {
         city: this.checkoutForm.value.city,
         notes: this.checkoutForm.value.notes,
       },
-      paymentMethod: (this.checkoutForm.value.paymentMethod === 'cash' ? 'cash_on_delivery' : 'credit_card') as 'cash' | 'cash_on_delivery' | 'credit_card',
+      paymentMethod: (this.checkoutForm.value.paymentMethod === 'cash'
+        ? 'cash_on_delivery'
+        : 'credit_card') as 'cash' | 'cash_on_delivery' | 'credit_card',
       status: 'pending' as const,
+      paymentStatus: this.checkoutForm.value.paymentMethod === 'credit_card' ? 'paid' : 'unpaid',
     };
 
     this.checkoutService.placeOrder(order).subscribe({

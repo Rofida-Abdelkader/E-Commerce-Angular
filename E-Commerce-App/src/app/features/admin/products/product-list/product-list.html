@@ -1,0 +1,89 @@
+<div class="admin-container">
+
+    <!-- Header -->
+    <div class="page-header">
+        <div>
+            <h1>Product Management</h1>
+            <p>Manage your store products</p>
+        </div>
+        <a routerLink="/admin/products/new" class="btn-primary">+ Add Product</a>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="table-toolbar">
+        <input type="text" placeholder="Search products..." [(ngModel)]="searchQuery" (input)="onSearch()"
+            class="search-input" />
+        <select [(ngModel)]="categoryFilter" (change)="onFilterChange()" class="filter-select">
+            <option value="">All Categories</option>
+            @for (cat of categories; track cat.id) {
+            <option [value]="cat.slug">{{ cat.name }}</option>
+            }
+        </select>
+    </div>
+
+    <!-- Table -->
+    <div class="content-card">
+        @if (loading) {
+        <div class="loading">Loading...</div>
+        } @else {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Rating</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (product of products; track product.id) {
+                <tr>
+                    <td><img [src]="product.image" [alt]="product.title" class="product-img" /></td>
+                    <td class="product-title">{{ product.title }}</td>
+                    <td><span class="category-badge">{{ product.category }}</span></td>
+                    <td>{{ product.price | currency }}</td>
+                    <td>
+                        <span [class]="product.stock > 10 ? 'stock-ok' : product.stock > 0 ? 'stock-low' : 'stock-out'">
+                            {{ product.stock ?? 0 }}
+                        </span>
+                    </td>
+                    <td>⭐ {{ product.rating?.rate ?? 0 }} ({{ product.rating?.count ?? 0 }})</td>
+                    <td>
+                        <div class="row-actions">
+                            <a [routerLink]="['/admin/products/edit', product.id]" class="btn-icon">✏️</a>
+                            <button class="btn-icon btn-danger" (click)="confirmDelete(product)">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">‹</button>
+            @for (page of pageNumbers; track page) {
+            <button (click)="goToPage(page)" [class.active]="page === currentPage">{{ page }}</button>
+            }
+            <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">›</button>
+        </div>
+        }
+    </div>
+
+    <!-- Delete Modal -->
+    @if (showDeleteModal) {
+    <div class="modal-overlay">
+        <div class="modal">
+            <h3>Delete Product</h3>
+            <p>Are you sure you want to delete <strong>{{ productToDelete?.title }}</strong>?</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" (click)="cancelDelete()">Cancel</button>
+                <button class="btn-danger" (click)="deleteProduct()">Delete</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

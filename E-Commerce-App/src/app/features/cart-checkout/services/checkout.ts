@@ -30,8 +30,17 @@ export class CheckoutService {
 
   placeOrder(order: Order): Observable<any> {
     const orderWithNumber = {
-      ...order,
       orderNumber: `ORD-${Date.now()}`,
+      items: order.items.map((item) => ({
+        id: `${item.productId}-${Date.now()}`,
+        productId: String(item.productId),
+        productName: item.title,
+        productImage: item.image,
+        sku: `SKU-${item.productId}`,
+        quantity: item.quantity,
+        unitPrice: item.price,
+        totalPrice: item.price * item.quantity,
+      })),
       shippingAddress: {
         fullName: order.customer.fullName,
         phone: order.customer.phone,
@@ -46,7 +55,9 @@ export class CheckoutService {
       shippingFee: 0,
       tax: 0,
       discount: 0,
-      paymentMethod: 'cash_on_delivery',
+      paymentMethod: order.paymentMethod,
+      paymentStatus: order.paymentMethod === 'credit_card' ? 'paid' : 'unpaid',
+      status: 'pending',
       trackingEvents: [],
       createdAt: new Date().toISOString(),
     };

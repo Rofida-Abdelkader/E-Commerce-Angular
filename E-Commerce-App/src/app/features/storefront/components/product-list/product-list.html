@@ -3,29 +3,43 @@
   <!-- TOP BAR -->
   <nav class="store-topbar navbar sticky-top px-0">
     <div class="container d-flex align-items-center justify-content-between gap-3">
+  <!-- Logo -->
+  <a class="store-logo navbar-brand m-0 fw-bold fs-5 d-flex align-items-center gap-2">
+    🛍️ ShopWave
+  </a>
 
-      <!-- Logo -->
-      <a class="store-logo navbar-brand m-0 fw-bold fs-5 d-flex align-items-center gap-2">
-        🛍️ ShopWave
-      </a>
+  <!-- Search -->
+  <div class="flex-grow-1" style="max-width: 42%;">
+    <app-search-bar (searchChanged)="onSearch($event)"></app-search-bar>
+  </div>
 
-      <!-- Search -->
-      <div class="flex-grow-1" style="max-width: 42%;">
-        <app-search-bar (searchChanged)="onSearch($event)"></app-search-bar>
-      </div>
+  <!-- Cart Button -->
+  <button class="btn btn-cart position-relative d-flex align-items-center gap-2"
+          (click)="toggleCart()">
+    <i class="bi bi-cart2"></i>
+    Cart
+    <span class="badge rounded-pill cart-badge position-absolute top-0 start-100 translate-middle"
+          *ngIf="getCartCount() > 0">
+      {{ getCartCount() }}
+    </span>
+  </button>
 
-      <!-- Cart Button -->
-      <button class="btn btn-cart position-relative d-flex align-items-center gap-2"
-              (click)="toggleCart()">
-        <i class="bi bi-cart2"></i>
-        Cart
-        <span class="badge rounded-pill cart-badge position-absolute top-0 start-100 translate-middle"
-              *ngIf="getCartCount() > 0">
-          {{ getCartCount() }}
-        </span>
-      </button>
-
+  <!-- User Menu -->
+  <div class="user-menu" *ngIf="isLoggedIn()">
+    <button class="btn btn-user" (click)="toggleUserMenu()">
+      👤 {{ userName() }}
+    </button>
+    <div class="user-dropdown" *ngIf="showUserMenu">
+      <a class="dropdown-item" (click)="goToOrders()">📦 My Orders</a>
+      <a class="dropdown-item logout" (click)="logout()">🚪 Logout</a>
     </div>
+  </div>
+
+  <!-- Login Button -->
+  <a class="btn btn-login" *ngIf="!isLoggedIn()" routerLink="/login">
+    Login
+  </a>
+</div>
   </nav>
 
   <!-- MAIN -->

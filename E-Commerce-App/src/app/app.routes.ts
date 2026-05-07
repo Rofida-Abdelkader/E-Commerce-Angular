@@ -1,6 +1,12 @@
 import { Routes } from '@angular/router';
 import { adminGuard } from './core/guards/admin-guard';
 import { authGuard } from './core/guards/auth-guard';
+import { OrderTrackingComponent } from './features/orders/components/order-tracking/order-tracking';
+import { AdminOrdersComponent } from './features/admin/components/admin-orders/admin-orders';
+import { ProductListComponent } from './features/admin/products/product-list/product-list';
+import { ProductFormComponent } from './features/admin/products/product-form/product-form';
+import { CategoryListComponent } from './features/admin/categories/category-list/category-list';
+import { CategoryFormComponent } from './features/admin/categories/category-form/category-form';
 
 export const routes: Routes = [
   {
@@ -16,6 +22,7 @@ export const routes: Routes = [
     // canActivate: [adminGuard],
     loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
+
 
   {
     path: 'cart',
@@ -40,6 +47,22 @@ export const routes: Routes = [
         (m) => m.OrderTrackingComponent,
       ),
   },
+
+ { path: '', redirectTo: 'orders', pathMatch: 'full' },
+  { path: 'orders', component: OrderTrackingComponent },
+  { path: 'admin', component: AdminOrdersComponent },
+
+   // Products
+  { path: 'admin/products', component: ProductListComponent },
+  { path: 'admin/products/new', component: ProductFormComponent },
+  { path: 'admin/products/edit/:id', component: ProductFormComponent },
+
+  // Categories
+  { path: 'admin/categories', component: CategoryListComponent },
+  { path: 'admin/categories/new', component: CategoryFormComponent },
+  { path: 'admin/categories/edit/:id', component: CategoryFormComponent },
+
+  
   { path: 'auth/login', redirectTo: 'login', pathMatch: 'full' },
   { path: 'auth/register', redirectTo: 'register', pathMatch: 'full' },
 

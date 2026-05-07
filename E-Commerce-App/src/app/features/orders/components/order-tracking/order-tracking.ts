@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Order, TrackingEvent, ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from '../../../../core/models/order.model';
 import { OrderService } from '../../services/order.service';
@@ -11,7 +11,7 @@ import { LoadingSpinnerComponent } from '../../../../shared/components/loading-s
 @Component({
   selector: 'app-order-tracking',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, DecimalPipe, StatusBadgeComponent, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, DatePipe, DecimalPipe, StatusBadgeComponent, LoadingSpinnerComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './order-tracking.html',
   styleUrls: ['./order-tracking.css'],
@@ -21,8 +21,9 @@ export class OrderTrackingComponent implements OnInit, OnDestroy {
   order: Order | null = null;
   loading = false;
   error = '';
+  savedOrders: any[] = [];
   private destroy$ = new Subject<void>();
-  
+
   progressSteps = [
     { label: 'Order Placed', icon: '📝', status: 'pending',    done: false, active: false, color: '#F59E0B' },
     { label: 'Confirmed',    icon: '✅', status: 'confirmed',   done: false, active: false, color: '#3B82F6' },
@@ -32,12 +33,15 @@ export class OrderTrackingComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private orderService: OrderService, 
+    private orderService: OrderService,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
+    this.savedOrders = JSON.parse(localStorage.getItem('user_orders') || '[]');
+    
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (params['orderNumber']) {
         this.searchQuery = params['orderNumber'];
@@ -47,6 +51,17 @@ export class OrderTrackingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void { this.destroy$.next(); this.destroy$.complete(); }
+
+  goHome() {
+    this.router.navigate(['/store']);
+  }
+
+  trackOrderByNumber(orderNumber: string) {
+    this.searchQuery = orderNumber;
+    this.trackOrder();
+    this.order = null;
+    this.cdr.markForCheck();
+  }
 
   trackOrder(): void {
     if (!this.searchQuery.trim()) { this.error = 'Please enter an order number.'; return; }
@@ -72,7 +87,7 @@ export class OrderTrackingComponent implements OnInit, OnDestroy {
 
   getStatusLabel(status: string): string { return ORDER_STATUS_LABELS[status as keyof typeof ORDER_STATUS_LABELS] || status; }
   getStatusColor(status: string): string { return ORDER_STATUS_COLORS[status as keyof typeof ORDER_STATUS_COLORS] || '#6B7280'; }
-  
+
   formatPaymentMethod(method: string): string {
     const map: Record<string, string> = {
       credit_card: '💳 Credit Card', debit_card: '💳 Debit Card',

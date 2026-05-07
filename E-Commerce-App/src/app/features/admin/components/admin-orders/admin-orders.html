@@ -6,10 +6,18 @@
       <span class="text">OrderCraft</span>
     </div>
     <nav class="sidebar-menu">
-      <a class="menu-item active">
+      <a routerLink="/admin" routerLinkActive="active" class="menu-item">
         <span class="icon">📦</span>
         <span class="text">Orders</span>
         <span class="badge">{{ stats?.totalOrders || 0 }}</span>
+      </a>
+      <a routerLink="/admin/products" routerLinkActive="active" class="menu-item">
+        <span class="icon">🛍️</span>
+        <span class="text">Products</span>
+      </a>
+      <a routerLink="/admin/categories" routerLinkActive="active" class="menu-item">
+        <span class="icon">🗂️</span>
+        <span class="text">Categories</span>
       </a>
     </nav>
     <div class="sidebar-user">
@@ -23,17 +31,15 @@
 
   <!-- المحتوى الأساسي -->
   <main class="main-content">
+      <router-outlet />
     <!-- الهيدر العلوي -->
     <header class="main-header">
       <div class="header-title">
         <h1>Order Management</h1>
         <p>Manage and track all customer orders</p>
       </div>
-
       <div class="header-actions">
-        <div class="date-display">
-          📅 {{ today | date:'mediumDate' }}
-        </div>
+        <div class="date-display">📅 {{ today | date: 'mediumDate' }}</div>
       </div>
     </header>
 
@@ -54,7 +60,7 @@
         </div>
         <div class="stat-card cyan">
           <span class="stat-label">Total Revenue</span>
-          <span class="stat-value">{{ stats.totalRevenue | currency:'EGP ' }}</span>
+          <span class="stat-value">{{ stats.totalRevenue | currency: 'EGP ' }}</span>
         </div>
       </div>
     }
@@ -63,7 +69,12 @@
     <div class="content-card">
       <div class="table-toolbar">
         <div class="search-box">
-          <input type="text" placeholder="Search orders..." [(ngModel)]="searchQuery" (input)="onSearch()">
+          <input
+            type="text"
+            placeholder="Search orders..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearch()"
+          />
         </div>
         <div class="filter-box">
           <select [(ngModel)]="statusFilter" (change)="onFilterChange()">
@@ -90,15 +101,19 @@
           <tbody>
             @for (order of orders; track order.id) {
               <tr>
-                <td><strong>{{ order.orderNumber }}</strong></td>
+                <td>
+                  <strong>{{ order.orderNumber }}</strong>
+                </td>
                 <td>
                   <div class="cust-info">
                     <span class="cust-name">{{ order.customerName }}</span>
                   </div>
                 </td>
-                <td>{{ order.items?.length || 0 }} Items</td>
+                <td>{{ order.items.length || 0 }} Items</td>
                 <td><app-status-badge [orderStatus]="order.status" type="order" /></td>
-                <td><span class="price">{{ order.total | currency:'EGP ' }}</span></td>
+                <td>
+                  <span class="price">{{ order.total | currency: 'EGP ' }}</span>
+                </td>
                 <td>
                   <div class="row-actions">
                     <button class="btn-icon" (click)="viewOrder(order)">👁</button>
@@ -126,20 +141,15 @@
           <div class="drawer-section">
             <h4>Order Status</h4>
             <div class="status-selector">
-              <select [(ngModel)]="selectedOrder.status" (ngModelChange)="changeStatus(selectedOrder, $event)">
+              <select
+                [(ngModel)]="selectedOrder.status"
+                (ngModelChange)="changeStatus(selectedOrder, $event)"
+              >
                 @for (status of statusOptions; track status.value) {
                   <option [value]="status.value">{{ status.label }}</option>
                 }
               </select>
               <app-status-badge [orderStatus]="selectedOrder.status" type="order" />
-            </div>
-            <div class="status-list">
-              @for (statusItem of statusOptions; track statusItem.value) {
-                <div class="status-row">
-                  <span class="status-label">{{ statusItem.label }}</span>
-                  <span class="status-value">{{ statusItem.value }}</span>
-                </div>
-              }
             </div>
           </div>
 
@@ -160,7 +170,7 @@
 
           <!-- Order Items -->
           <div class="drawer-section">
-            <h4>Order Items ({{ selectedOrder.items?.length || 0 }})</h4>
+            <h4>Order Items ({{ selectedOrder.items.length || 0 }})</h4>
             <div class="items-list">
               @for (item of selectedOrder.items; track item.id) {
                 <div class="item-card">
@@ -171,8 +181,8 @@
                     <h5>{{ item.productName }}</h5>
                     <p>SKU: {{ item.sku }}</p>
                     <p>Quantity: {{ item.quantity }}</p>
-                    <p>Unit Price: {{ item.unitPrice | currency:'EGP ' }}</p>
-                    <p>Total: {{ item.totalPrice | currency:'EGP ' }}</p>
+                    <p>Unit Price: {{ item.unitPrice | currency: 'EGP ' }}</p>
+                    <p>Total: {{ item.totalPrice | currency: 'EGP ' }}</p>
                   </div>
                 </div>
               }
@@ -185,29 +195,29 @@
             <div class="summary-grid">
               <div class="summary-item">
                 <label>Subtotal:</label>
-                <span>{{ selectedOrder.subtotal | currency:'EGP ' }}</span>
+                <span>{{ selectedOrder.subtotal | currency: 'EGP ' }}</span>
               </div>
               <div class="summary-item">
                 <label>Shipping:</label>
-                <span>{{ selectedOrder.shippingFee | currency:'EGP ' }}</span>
+                <span>{{ selectedOrder.shippingFee | currency: 'EGP ' }}</span>
               </div>
               <div class="summary-item">
                 <label>Tax:</label>
-                <span>{{ selectedOrder.tax | currency:'EGP ' }}</span>
+                <span>{{ selectedOrder.tax | currency: 'EGP ' }}</span>
               </div>
               <div class="summary-item">
                 <label>Discount:</label>
-                <span>{{ selectedOrder.discount | currency:'EGP ' }}</span>
+                <span>{{ selectedOrder.discount | currency: 'EGP ' }}</span>
               </div>
               <div class="summary-item total">
                 <label>Total:</label>
-                <span>{{ selectedOrder.total | currency:'EGP ' }}</span>
+                <span>{{ selectedOrder.total | currency: 'EGP ' }}</span>
               </div>
             </div>
           </div>
 
           <!-- Tracking Events -->
-          @if (selectedOrder.trackingEvents?.length) {
+          @if (selectedOrder.trackingEvents.length) {
             <div class="drawer-section">
               <h4>Order History</h4>
               <div class="tracking-timeline">
@@ -222,7 +232,7 @@
                       @if (event.location) {
                         <p class="location">📍 {{ event.location }}</p>
                       }
-                      <small>{{ event.timestamp | date:'medium' }}</small>
+                      <small>{{ event.timestamp | date: 'medium' }}</small>
                     </div>
                   </div>
                 }
@@ -230,15 +240,21 @@
             </div>
           }
 
-          <!-- Shipping & Billing Addresses -->
+          <!-- Shipping Address -->
           <div class="drawer-section">
             <h4>Shipping Address</h4>
             <div class="address-card">
-              <p><strong>{{ selectedOrder.shippingAddress?.fullName || 'N/A' }}</strong></p>
-              <p>{{ selectedOrder.shippingAddress?.street || 'N/A' }}</p>
-              <p>{{ selectedOrder.shippingAddress?.city || '' }}, {{ selectedOrder.shippingAddress?.state || '' }} {{ selectedOrder.shippingAddress?.postalCode || '' }}</p>
-              <p>{{ selectedOrder.shippingAddress?.country || '' }}</p>
-              <p>📞 {{ selectedOrder.shippingAddress?.phone || 'N/A' }}</p>
+              <p>
+                <strong>{{ selectedOrder.shippingAddress.fullName || 'N/A' }}</strong>
+              </p>
+              <p>{{ selectedOrder.shippingAddress.street || 'N/A' }}</p>
+              <p>
+                {{ selectedOrder.shippingAddress.city || '' }},
+                {{ selectedOrder.shippingAddress.state || '' }}
+                {{ selectedOrder.shippingAddress.postalCode || '' }}
+              </p>
+              <p>{{ selectedOrder.shippingAddress.country || '' }}</p>
+              <p>📞 {{ selectedOrder.shippingAddress.phone || 'N/A' }}</p>
             </div>
           </div>
         </div>
